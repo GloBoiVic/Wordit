@@ -4,6 +4,7 @@ const wordSchema = new Schema(
   {
     word: {
       type: String,
+      lowercase: true,
       required: true,
     },
     definition: {
