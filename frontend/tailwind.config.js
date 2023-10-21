@@ -14,7 +14,7 @@ export default {
     },
 
     fontFamily: {
-      'Cormorant Infant': 'Cormorant Infant, sans-serif',
+      sans: 'Cormorant Infant, sans-serif',
     },
   },
   plugins: [
