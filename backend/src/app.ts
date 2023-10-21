@@ -1,7 +1,7 @@
 import express from 'express';
 import cors from 'cors';
 import morgan from 'morgan';
-import wordRouter from './routes/wordRouter';
+import wordRouter from './routes/wordRoutes';
 
 const app = express();
 

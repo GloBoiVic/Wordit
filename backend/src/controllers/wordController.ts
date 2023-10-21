@@ -11,10 +11,7 @@ export const getWords: RequestHandler = async (req, res, next) => {
   try {
     const words = await wordModel.find();
 
-    res.status(200).json({
-      status: 'success',
-      data: words,
-    });
+    res.status(200).json(words);
   } catch (error) {
     next(error);
   }
@@ -29,10 +26,7 @@ export const getWord: RequestHandler = async (req, res, next) => {
 
     if (!word) throw createHttpError(404, 'Word not found');
 
-    res.status(200).json({
-      status: 'success',
-      data: word,
-    });
+    res.status(200).json(word);
   } catch (error) {
     next(error);
   }
@@ -65,10 +59,7 @@ export const createWord: RequestHandler<unknown, unknown, CreateWordBody, unknow
       definition,
       context,
     });
-    res.status(201).json({
-      status: 'success',
-      data: newWord,
-    });
+    res.status(201).json(newWord);
   } catch (error) {
     next(error);
   }
@@ -110,10 +101,7 @@ export const updateWord: RequestHandler<UpdateWordParams, unknown, UpdateWordBod
 
     const updatedWord = await word.save();
 
-    res.status(200).json({
-      status: 'success',
-      data: updatedWord,
-    });
+    res.status(200).json(updatedWord);
   } catch (error) {
     next(error);
   }
@@ -131,9 +119,7 @@ export const deleteWord: RequestHandler = async (req, res, next) => {
 
     await word.deleteOne();
 
-    res.status(204).json({
-      status: 'success',
-    });
+    res.status(204);
   } catch (error) {
     next(error);
   }
