@@ -7,7 +7,6 @@ interface VocabCardProps {
 
 function VocalCard({ word }: VocabCardProps) {
   const { word: vocabWord, definition } = word;
-  console.log(word);
   return (
     <Card className="max-w-xs">
       <CardHeader className="flex items-center space-x-4">
