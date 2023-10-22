@@ -6,3 +6,15 @@ export async function fetchWords(): Promise<Vocab[]> {
 
   return response.data;
 }
+
+interface wordInput {
+  word: string;
+  context?: string;
+}
+export async function createWord(wordInput: wordInput): Promise<Vocab> {
+  const response = await axios.post('/api/v1/words', {
+    data: wordInput,
+  });
+
+  console.log(response);
+}
