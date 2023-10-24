@@ -50,6 +50,8 @@ export const createWord: RequestHandler<unknown, unknown, CreateWordBody, unknow
 
     const apiResponse = await axios.get(`${env.DICTIONARY_API}/${word}`);
 
+    //TODO: Add error handling for no definition found. 404 Error
+
     const definition = apiResponse.data[0].meanings[0].definitions[0].definition;
 
     //TODO: Grab parts of speech and add it to tags
