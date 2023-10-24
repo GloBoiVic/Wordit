@@ -1,5 +1,6 @@
 import { Outlet } from 'react-router-dom';
 import Header from './Header';
+import { Toaster } from 'react-hot-toast';
 
 function AppLayout() {
   return (
@@ -9,6 +10,7 @@ function AppLayout() {
       <div className="mt-10">
         <Outlet />
       </div>
+      <Toaster position="bottom-right" />
     </div>
   );
 }
