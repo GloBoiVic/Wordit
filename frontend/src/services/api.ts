@@ -12,9 +12,6 @@ interface wordInput {
   context?: string;
 }
 export async function createWord(wordInput: wordInput): Promise<Vocab> {
-  const response = await axios.post('/api/v1/words', {
-    data: wordInput,
-  });
-
-  console.log(response);
+  const response = await axios.post('/api/v1/words', wordInput);
+  return response.data;
 }
