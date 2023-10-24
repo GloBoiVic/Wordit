@@ -1,25 +1,43 @@
-import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, Input, Textarea } from '@nextui-org/react';
-import TextInputField from '../../ui/TextInputField';
-import { Form } from 'react-router-dom';
-import { ChangeEvent, useState } from 'react';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { Button, Input, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader, Textarea } from '@nextui-org/react';
+import { useForm } from 'react-hook-form';
+import { z } from 'zod';
 import { Vocab } from '../../models/vocab';
-import { createWord } from '../../services/api';
+import * as WordsApi from '../../services/api';
+import { wordSchema } from '../../validators/validateWordInput';
+import toast from 'react-hot-toast';
 
 interface CreateWordModalProps {
   onDismiss: () => void;
+  onWordSaved: (newWord: Vocab) => void;
 }
 
-function CreateWordModal({ onDismiss }: CreateWordModalProps) {
-  const [word, setWord] = useState('');
-  const [contextWordExample, setContextWordExample] = useState('');
+type TInput = z.infer<typeof wordSchema>;
 
-  const handleSubmit = (e: ChangeEvent<HTMLInputElement>) => {
-    e.preventDefault();
-    console.log({ word, contextWordExample });
+function CreateWordModal({ onDismiss, onWordSaved }: CreateWordModalProps) {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting, isValid },
+  } = useForm<TInput>({
+    resolver: zodResolver(wordSchema),
+    defaultValues: {
+      word: '',
+      contextExample: '',
+    },
+  });
+
+  const onSubmit = async (values: TInput) => {
+    try {
+      const wordResponse = await WordsApi.createWord(values);
+      onWordSaved(wordResponse);
+    } catch (error) {
+      console.error(error);
+    }
   };
+
   return (
     <>
-      {/* <Button onPress={onOpen}>Open Modal</Button> */}
       <Modal placement="center" defaultOpen onClose={onDismiss}>
         <ModalContent>
           <>
@@ -27,27 +45,37 @@ function CreateWordModal({ onDismiss }: CreateWordModalProps) {
               Add a word
             </ModalHeader>
             <ModalBody>
-              <form onSubmit={handleSubmit} id="createWordForm" className="space-y-4">
+              <form id="createWordForm" onSubmit={handleSubmit(onSubmit)} className="space-y-4">
                 <Input
-                  value={word}
+                  {...register('word')}
                   label="Word"
                   placeholder="Add a word"
                   labelPlacement="outside"
-                  onChange={(e: ChangeEvent<HTMLInputElement>) => setWord(e.target.value)}
                   name="word"
                 />
+                {errors.word?.message && <p className="mt-1 text-xs text-red-500">{errors.word?.message}</p>}
                 <Textarea
-                  value={word}
+                  {...register('contextExample')}
                   placeholder="Context"
                   labelPlacement="outside"
                   label="Context Example"
-                  name="context"
-                  onChange={(e: ChangeEvent<HTMLInputElement>) => setContextWordExample(e.target.value)}
+                  name="contextExample"
                 />
               </form>
             </ModalBody>
             <ModalFooter>
-              <Button id="createWordForm" fullWidth color="primary">
+              <Button
+                type="submit"
+                form="createWordForm"
+                fullWidth
+                color="primary"
+                onPress={() => {
+                  if (!isValid) return;
+                  toast.success('Word created', {
+                    className: '',
+                  });
+                }}
+              >
                 Save
               </Button>
             </ModalFooter>
