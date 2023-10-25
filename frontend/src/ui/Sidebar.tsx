@@ -9,8 +9,8 @@ type SidebarProps = {
 function Sidebar({ onDismiss, children }: SidebarProps) {
   return (
     <>
-      <div className="w-full col-span-1 px-2 py-4 bg-gray-300">
-        <div className="w-3/4 space-y-3 sm:mx-auto">
+      <div className="px-2 py-4 bg-gray-300">
+        <div className="flex flex-col gap-3 sm:flex-row sm:w-1/2">
           <Button onPress={onDismiss} className="w-full border">
             Add word
           </Button>

@@ -30,7 +30,7 @@ function Vocab() {
   }, []);
 
   return (
-    <div className="flex flex-col h-auto grid-cols-4 gap-3 sm:grid">
+    <div className="flex gap-3 px-4 sm:flex-col">
       <Sidebar onDismiss={() => setShowAddWordModal(true)}>
         {showAddWordModal && (
           <CreateWordModal
@@ -42,7 +42,7 @@ function Vocab() {
           />
         )}
       </Sidebar>
-      <main className="grid max-w-xl col-span-3 gap-2 ml-4 min-h-fit min-w-fit sm:ml-0 lg:grid-cols-3 xl:grid-cols-4 sm:grid-cols-2 sm:place-content-center">
+      <main className="grid flex-1 max-w-2xl gap-2 px-2 py-4 lg:mx-0 min-h-fit min-w-fit lg:grid-cols-3 xl:grid-cols-4 sm:grid-cols-2 sm:place-content-center">
         {words.length > 0 && words.map((word) => <VocalCard word={word} key={word._id} />)}
       </main>
     </div>
