@@ -4,7 +4,7 @@ import { Toaster } from 'react-hot-toast';
 
 function AppLayout() {
   return (
-    <div className="grid grid-rows-[auto_1fr] h-screen">
+    <div className="h-screen">
       <Header />
 
       <div className="mt-10">

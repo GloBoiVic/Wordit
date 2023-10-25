@@ -30,23 +30,21 @@ function Vocab() {
   }, []);
 
   return (
-    <div className="container">
-      <div className="flex flex-col grid-cols-4 gap-6 sm:grid">
-        <Sidebar onDismiss={() => setShowAddWordModal(true)}>
-          {showAddWordModal && (
-            <CreateWordModal
-              onDismiss={() => setShowAddWordModal(false)}
-              onWordSaved={(newWord) => {
-                setWords([...words, newWord]);
-                setShowAddWordModal(false);
-              }}
-            />
-          )}
-        </Sidebar>
-        <main className="grid col-span-3 gap-2 lg:grid-cols-3 sm:grid-cols-2">
-          {words.length > 0 && words.map((word) => <VocalCard word={word} key={word._id} />)}
-        </main>
-      </div>
+    <div className="flex flex-col h-auto grid-cols-4 gap-3 sm:grid">
+      <Sidebar onDismiss={() => setShowAddWordModal(true)}>
+        {showAddWordModal && (
+          <CreateWordModal
+            onDismiss={() => setShowAddWordModal(false)}
+            onWordSaved={(newWord) => {
+              setWords([...words, newWord]);
+              setShowAddWordModal(false);
+            }}
+          />
+        )}
+      </Sidebar>
+      <main className="grid max-w-xl col-span-3 gap-2 ml-4 min-h-fit min-w-fit sm:ml-0 lg:grid-cols-3 xl:grid-cols-4 sm:grid-cols-2 sm:place-content-center">
+        {words.length > 0 && words.map((word) => <VocalCard word={word} key={word._id} />)}
+      </main>
     </div>
   );
 }

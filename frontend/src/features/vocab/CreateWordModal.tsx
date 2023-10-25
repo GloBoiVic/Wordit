@@ -66,6 +66,7 @@ function CreateWordModal({ onDismiss, onWordSaved }: CreateWordModalProps) {
             <ModalFooter>
               <Button
                 type="submit"
+                disabled={isSubmitting}
                 form="createWordForm"
                 fullWidth
                 color="primary"
