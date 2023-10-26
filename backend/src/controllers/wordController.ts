@@ -1,9 +1,8 @@
 import { RequestHandler } from 'express';
-import axios from 'axios';
-import env from '../utils/validateEnv';
-import wordModel from '../models/wordModel';
 import createHttpError from 'http-errors';
 import mongoose from 'mongoose';
+import wordModel from '../models/wordModel';
+import env from '../utils/validateEnv';
 
 //TODO Add user authentication to routes
 
@@ -34,11 +33,11 @@ export const getWord: RequestHandler = async (req, res, next) => {
 
 interface CreateWordBody {
   word: string;
-  context?: string;
+  contextExample?: string;
 }
 
 export const createWord: RequestHandler<unknown, unknown, CreateWordBody, unknown> = async (req, res, next) => {
-  const { word, context } = req.body;
+  const { word, contextExample } = req.body;
 
   try {
     if (!word) throw createHttpError(400, 'Vocabulary word cannot be blank');
@@ -48,18 +47,21 @@ export const createWord: RequestHandler<unknown, unknown, CreateWordBody, unknow
 
     if (existingWord) throw createHttpError(409, 'This word already exists');
 
-    const apiResponse = await axios.get(`${env.DICTIONARY_API}/${word}`);
+    const apiResponse = await fetch(`${env.DICTIONARY_API}/${word}`, {
+      method: 'GET',
+    });
 
     //TODO: Add error handling for no definition found. 404 Error
+    const data = await apiResponse.json();
 
-    const definition = apiResponse.data[0].meanings[0].definitions[0].definition;
+    const definition = data[0].meanings[0].definitions[0].definition;
 
     //TODO: Grab parts of speech and add it to tags
 
     const newWord = await wordModel.create({
       word,
       definition,
-      context,
+      contextExample,
     });
     res.status(201).json(newWord);
   } catch (error) {
@@ -73,7 +75,7 @@ interface UpdateWordParams {
 
 interface UpdateWordBody {
   word: string;
-  context?: string;
+  contextExample?: string;
 }
 
 export const updateWord: RequestHandler<UpdateWordParams, unknown, UpdateWordBody, unknown> = async (
@@ -83,7 +85,7 @@ export const updateWord: RequestHandler<UpdateWordParams, unknown, UpdateWordBod
 ) => {
   const wordId = req.params.wordId;
   const newWord = req.body.word;
-  const newContext = req.body.context;
+  const newContextExample = req.body.contextExample;
 
   try {
     if (!mongoose.isValidObjectId(wordId)) throw createHttpError(400, 'Invalid note id');
@@ -93,13 +95,17 @@ export const updateWord: RequestHandler<UpdateWordParams, unknown, UpdateWordBod
 
     if (!word) throw createHttpError(404, ' Word not found');
 
-    const apiResponse = await axios.get(`${env.DICTIONARY_API}/${newWord}`);
+    const apiResponse = await fetch(`${env.DICTIONARY_API}/${newWord}`, {
+      method: 'GET',
+    });
 
-    const definition = apiResponse.data[0].meanings[0].definitions[0].definition;
+    const data = await apiResponse.json();
+
+    const definition = data[0].meanings[0].definitions[0].definition;
 
     word.word = newWord;
     word.definition = definition;
-    word.context = newContext;
+    word.contextExample = newContextExample;
 
     const updatedWord = await word.save();
 

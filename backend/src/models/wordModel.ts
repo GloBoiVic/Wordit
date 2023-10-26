@@ -11,7 +11,7 @@ const wordSchema = new Schema(
       type: String,
       required: true,
     },
-    context: {
+    contextExample: {
       type: String,
     },
     tags: [String],
