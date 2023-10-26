@@ -10,7 +10,7 @@ type SidebarProps = {
 function Sidebar({ onDismiss, children }: SidebarProps) {
   return (
     <>
-      <aside className="px-2 py-4 sm:w-[300px] sm:border-r">
+      <aside className="px-2 py-4 sm:w-[250px] sm:border-r">
         <div className="flex flex-col gap-3 mx-3">
           <Button
             onPress={onDismiss}

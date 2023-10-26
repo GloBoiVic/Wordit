@@ -70,14 +70,14 @@ function Vocab() {
       </Sidebar>
 
       {wordsLoading && (
-        <div className="grid flex-1 max-w-xl gap-2 px-2 py-4 lg:mx-0 min-h-fit min-w-fit lg:grid-cols-3 xl:grid-cols-4 sm:grid-cols-2 sm:place-content-center ">
+        <div className="grid flex-1 gap-2 px-2 py-4 lg:mx-0 min-h-fit min-w-fit lg:grid-cols-3 xl:grid-cols-4 sm:grid-cols-2 sm:place-content-center ">
           <Skeleton className="w-[18rem] h-[12rem] bg-secondary rounded-md shadow-md border-slate-200 dark:border-slate-700"></Skeleton>
           <Skeleton className="w-[18rem] h-[12rem] bg-secondary rounded-md shadow-md border-slate-200 dark:border-slate-700"></Skeleton>
           <Skeleton className="w-[18rem] h-[12rem] bg-secondary rounded-md shadow-md border-slate-200 dark:border-slate-700"></Skeleton>
         </div>
       )}
 
-      <main className="grid flex-1 gap-2 lg:grid-cols-3 xl:grid-cols-4 auto-rows-min sm:grid-cols-2">
+      <main className="grid flex-1 max-w-2xl gap-2 px-2 py-4 lg:grid-cols-3 xl:grid-cols-4 auto-rows-min lg:mx-0 sm:grid-cols-2">
         {words.length > 0 && words.map((word) => <VocalCard onDeleteWord={deleteWord} word={word} key={word._id} />)}
       </main>
     </div>
