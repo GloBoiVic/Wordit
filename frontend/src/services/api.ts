@@ -1,3 +1,4 @@
+import { UnauthorizedError, ConflictError, MissingParamsError, ValidationError } from '../errors/http_errors';
 import { VocabModel } from '../models/vocabModel';
 
 async function fetchData(input: RequestInfo, init?: RequestInit) {
@@ -5,24 +6,26 @@ async function fetchData(input: RequestInfo, init?: RequestInit) {
   if (response.ok) {
     return response;
   } else {
-    throw Error(`Request failed with status: ${response.status}.`);
-    //   const errorBody = await response.json();
-    //   const errorMessage = errorBody.error;
+    const errorBody = await response.json();
+    const errorMessage = errorBody.error;
 
-    //   if (response.status === 401) {
-    //     throw new UnauthorizedError(errorMessage);
-    //   }
+    if (response.status === 401) {
+      throw new UnauthorizedError(errorMessage);
+    }
 
-    //   if (response.status === 409) {
-    //     throw new ConflictError(errorMessage);
-    //   }
+    if (response.status === 409) {
+      throw new ConflictError(errorMessage);
+    }
 
-    //   if (response.status === 400) {
-    //     throw new MissingParamsError(errorMessage);
-    //   }
+    if (response.status === 400) {
+      throw new MissingParamsError(errorMessage);
+    }
 
-    //   throw Error(`Request failed with status: ${response.status}. message: ${errorMessage}`);
-    // }
+    if (response.status === 500) {
+      throw new ValidationError(errorMessage);
+    }
+
+    throw Error(`Request failed with status: ${response.status}. message: ${errorMessage}`);
   }
 }
 
