@@ -19,7 +19,8 @@ export const getWords: RequestHandler = async (req, res, next) => {
 export const getWord: RequestHandler = async (req, res, next) => {
   const wordId = req.params.wordId;
   try {
-    if (!mongoose.isValidObjectId(wordId)) throw createHttpError(400, 'Invalid note id');
+    if (!mongoose.isValidObjectId(wordId))
+      throw createHttpError(400, 'Invalid note id');
 
     const word = await wordModel.findById(wordId);
 
@@ -36,14 +37,18 @@ interface CreateWordBody {
   contextExample?: string;
 }
 
-export const createWord: RequestHandler<unknown, unknown, CreateWordBody, unknown> = async (req, res, next) => {
+export const createWord: RequestHandler<
+  unknown,
+  unknown,
+  CreateWordBody,
+  unknown
+> = async (req, res, next) => {
   const { word, contextExample } = req.body;
 
   try {
     if (!word) throw createHttpError(400, 'Vocabulary word cannot be blank');
 
     const existingWord = await wordModel.findOne({ word: word });
-    console.log(existingWord);
 
     if (existingWord) throw createHttpError(409, 'This word already exists');
 
@@ -51,10 +56,12 @@ export const createWord: RequestHandler<unknown, unknown, CreateWordBody, unknow
       method: 'GET',
     });
 
-    //TODO: Add error handling for no definition found. 404 Error
     const data = await apiResponse.json();
 
-    const definition = data[0].meanings[0].definitions[0].definition;
+    const definition = data[0]?.meanings[0]?.definitions[0]?.definition;
+
+    if (!definition)
+      throw createHttpError(500, 'There is no definition for this word');
 
     //TODO: Grab parts of speech and add it to tags
 
@@ -78,17 +85,19 @@ interface UpdateWordBody {
   contextExample?: string;
 }
 
-export const updateWord: RequestHandler<UpdateWordParams, unknown, UpdateWordBody, unknown> = async (
-  req,
-  res,
-  next,
-) => {
+export const updateWord: RequestHandler<
+  UpdateWordParams,
+  unknown,
+  UpdateWordBody
+> = async (req, res, next) => {
   const wordId = req.params.wordId;
   const newWord = req.body.word;
   const newContextExample = req.body.contextExample;
 
   try {
-    if (!mongoose.isValidObjectId(wordId)) throw createHttpError(400, 'Invalid note id');
+    if (!mongoose.isValidObjectId(wordId))
+      throw createHttpError(400, 'Invalid note id');
+
     if (!newWord) throw createHttpError(400, 'Vocabulary word cannot be blank');
 
     const word = await wordModel.findById(wordId);
@@ -119,7 +128,8 @@ export const deleteWord: RequestHandler = async (req, res, next) => {
   const wordId = req.params.wordId;
 
   try {
-    if (!mongoose.isValidObjectId(wordId)) throw createHttpError(400, 'Invalid note id');
+    if (!mongoose.isValidObjectId(wordId))
+      throw createHttpError(400, 'Invalid word id');
 
     const word = await wordModel.findById(wordId);
 
@@ -127,7 +137,7 @@ export const deleteWord: RequestHandler = async (req, res, next) => {
 
     await word.deleteOne();
 
-    res.status(204);
+    res.sendStatus(204);
   } catch (error) {
     next(error);
   }
