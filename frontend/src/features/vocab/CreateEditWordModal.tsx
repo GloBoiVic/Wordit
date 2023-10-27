@@ -44,53 +44,52 @@ function CreateEditWordModal({ onDismiss, onWordSaved, wordToEdit }: CreateEditW
   }
 
   return (
-    <>
-      <Modal placement="center" defaultOpen onClose={onDismiss}>
-        <ModalContent>
-          <>
-            <ModalHeader className="flex items-center justify-center text-2xl font-bold tracking-wide">
-              Add a word
-            </ModalHeader>
-            <ModalBody>
-              <form id="createWordForm" onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-                <Input
-                  {...register('word')}
-                  label="Word"
-                  placeholder="Add a word"
-                  labelPlacement="outside"
-                  name="word"
-                />
-                {errors.word?.message && <p className="mt-1 text-xs text-red-500">{errors.word?.message}</p>}
-                <Textarea
-                  {...register('contextExample')}
-                  placeholder="Context"
-                  labelPlacement="outside"
-                  label="Context Example"
-                  name="contextExample"
-                />
-              </form>
-            </ModalBody>
-            <ModalFooter>
-              <Button
-                type="submit"
-                disabled={isSubmitting}
-                form="createWordForm"
-                fullWidth
-                color="primary"
-                onPress={() => {
-                  if (!isValid) return;
-                  toast.success('Word created', {
-                    className: '',
-                  });
-                }}
-              >
-                Save
-              </Button>
-            </ModalFooter>
-          </>
-        </ModalContent>
-      </Modal>
-    </>
+    <Modal placement="center" defaultOpen onClose={onDismiss}>
+      <ModalContent>
+        <>
+          <ModalHeader className="flex items-center justify-center text-2xl font-bold tracking-wide">
+            Add a word
+          </ModalHeader>
+          <ModalBody>
+            <form id="createWordForm" onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+              <Input
+                {...register('word')}
+                label="Word"
+                placeholder="Add a word"
+                labelPlacement="outside"
+                name="word"
+                isInvalid={!!errors.word}
+              />
+              {errors.word?.message && <p className="mt-1 text-xs text-red-500">{errors.word?.message}</p>}
+              <Textarea
+                {...register('contextExample')}
+                placeholder="Context"
+                labelPlacement="outside"
+                label="Context Example"
+                name="contextExample"
+              />
+            </form>
+          </ModalBody>
+          <ModalFooter>
+            <Button
+              type="submit"
+              disabled={isSubmitting}
+              form="createWordForm"
+              fullWidth
+              color="primary"
+              onPress={() => {
+                if (!isValid) return;
+                toast.success(wordToEdit ? 'Note Updated' : 'Note Added', {
+                  className: 'border-green-500 bg-green-500 text-stone-100 p-3',
+                });
+              }}
+            >
+              Save
+            </Button>
+          </ModalFooter>
+        </>
+      </ModalContent>
+    </Modal>
   );
 }
 
