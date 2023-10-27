@@ -16,6 +16,11 @@ export default {
     fontFamily: {
       sans: 'Cormorant Infant, sans-serif',
     },
+    extend: {
+      height: {
+        screen: '100dvh',
+      },
+    },
   },
   plugins: [
     nextui({
