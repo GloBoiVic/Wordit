@@ -10,7 +10,17 @@ function AppLayout() {
       <div className="mt-10">
         <Outlet />
       </div>
-      <Toaster position="bottom-right" />
+      <Toaster
+        position="top-right"
+        toastOptions={{
+          success: {
+            duration: 3000,
+          },
+          error: {
+            duration: 5000,
+          },
+        }}
+      />
     </div>
   );
 }
