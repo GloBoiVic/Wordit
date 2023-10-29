@@ -14,7 +14,9 @@ const wordSchema = new Schema(
     contextExample: {
       type: String,
     },
-    tags: [String],
+    partOfSpeech: {
+      type: String,
+    },
   },
   { timestamps: true },
 );

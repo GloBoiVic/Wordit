@@ -3,7 +3,7 @@ export interface VocabModel {
   word: string;
   contextExample?: string;
   definition: string;
-  tags: [string];
+  partOfSpeech: string;
   createdAt: string;
   updatedAt: string;
 }
