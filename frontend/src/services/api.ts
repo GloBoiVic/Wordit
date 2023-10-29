@@ -1,5 +1,6 @@
 import { BadRequestError, ConflictError, InternalServerError, UnauthorizedError } from '../errors/http_errors';
 import { VocabModel } from '../models/vocabModel';
+import { UserModel } from '../models/userModel';
 
 async function fetchData(input: RequestInfo, init?: RequestInit) {
   const response = await fetch(input, init);
@@ -32,6 +33,23 @@ async function fetchData(input: RequestInfo, init?: RequestInit) {
     // }
     // throw Error(`Request failed with status: ${response.status}. message: ${errorMessage}`);
   }
+}
+
+interface SignUpCredentials {
+  username: string;
+  email: string;
+  password: string;
+}
+
+export async function signUp(credentials: SignUpCredentials): Promise<UserModel> {
+  const response = await fetchData('/api/v1/users/signup', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(credentials),
+  });
+  return response.json();
 }
 
 export async function fetchWords(): Promise<VocabModel[]> {
