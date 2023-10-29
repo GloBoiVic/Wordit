@@ -7,7 +7,7 @@ function AppLayout() {
     <div className="h-screen">
       <Header />
 
-      <div className="mt-10 overflow-scroll">
+      <div className="mt-10">
         <Outlet />
       </div>
       <Toaster

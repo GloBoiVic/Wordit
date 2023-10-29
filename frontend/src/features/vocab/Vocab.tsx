@@ -44,7 +44,7 @@ function Vocab() {
   if (showWordLoadingError) return <ErrorPage />;
 
   const wordsGrid = (
-    <main className="grid flex-1 max-w-2xl gap-2 px-2 py-4 mx-3 lg:grid-cols-3 xl:grid-cols-4 auto-rows-min lg:mx-0 sm:grid-cols-2">
+    <main className="grid flex-1 max-w-2xl gap-2 px-2 py-4 mx-3 overflow-auto lg:grid-cols-3 xl:grid-cols-4 auto-rows-min lg:mx-0 sm:grid-cols-2">
       {words.map((word) => (
         <VocabCard onWordClicked={setWordToEdit} onDeleteWordClicked={deleteWord} word={word} key={word._id} />
       ))}
