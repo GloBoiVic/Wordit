@@ -3,6 +3,7 @@ import { ThemeProvider } from './utils/theme-provider';
 import AppLayout from './ui/AppLayout';
 import Vocab from './features/vocab/Vocab';
 import ErrorPage from './ui/ErrorPage';
+import SignUpPage from './features/user/SignUpPage';
 
 const router = createBrowserRouter([
   {
@@ -23,6 +24,10 @@ const router = createBrowserRouter([
       {
         path: '/vocab/:vocabId',
         element: <h1>Vocab card page</h1>,
+      },
+      {
+        path: '/users/signin',
+        element: <SignUpPage />,
       },
       {
         path: '*',
