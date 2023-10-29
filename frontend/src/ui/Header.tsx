@@ -8,7 +8,9 @@ function Header() {
 
       <ul className="flex gap-8">
         {/* TODO: Add proper routes to links */}
-        <Link as={NavLink}>Sign In</Link>
+        <Link as={NavLink} to="/users/signin">
+          Sign Up
+        </Link>
         <Link as={NavLink}>Log In</Link>
       </ul>
     </header>
