@@ -1,11 +1,14 @@
+import { ExclamationCircleIcon } from '@heroicons/react/24/outline';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Button, Input, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader, Textarea } from '@nextui-org/react';
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
+import toast from 'react-hot-toast';
 import { z } from 'zod';
+import { InternalServerError } from '../../errors/http_errors';
 import { VocabModel } from '../../models/vocabModel';
 import * as WordsApi from '../../services/api';
 import { wordSchema } from '../../validators/validateWordInput';
-import toast from 'react-hot-toast';
 
 interface CreateEditWordModalProps {
   onDismiss: () => void;
@@ -16,6 +19,7 @@ interface CreateEditWordModalProps {
 type TInput = z.infer<typeof wordSchema>;
 
 function CreateEditWordModal({ onDismiss, onWordSaved, wordToEdit }: CreateEditWordModalProps) {
+  const [errorText, setErrorText] = useState<string | null>(null);
   const {
     register,
     handleSubmit,
@@ -39,6 +43,11 @@ function CreateEditWordModal({ onDismiss, onWordSaved, wordToEdit }: CreateEditW
       }
       onWordSaved(wordResponse);
     } catch (error) {
+      if (error instanceof InternalServerError) {
+        setErrorText(error.message);
+      } else {
+        alert(error);
+      }
       console.error(error);
     }
   }
@@ -51,6 +60,15 @@ function CreateEditWordModal({ onDismiss, onWordSaved, wordToEdit }: CreateEditW
             Add a word
           </ModalHeader>
           <ModalBody>
+            {errorText && (
+              <div
+                className="flex items-center w-full gap-4 px-3 py-2 text-sm text-red-500 bg-red-200 border border-red-200 rounded"
+                role="alert"
+              >
+                <ExclamationCircleIcon />
+                <p>{errorText}</p>
+              </div>
+            )}
             <form id="createWordForm" onSubmit={handleSubmit(onSubmit)} className="space-y-4">
               <Input
                 {...register('word')}
