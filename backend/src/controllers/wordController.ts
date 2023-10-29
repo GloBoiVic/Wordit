@@ -58,17 +58,26 @@ export const createWord: RequestHandler<
 
     const data = await apiResponse.json();
 
-    const definition = data[0]?.meanings[0]?.definitions[0]?.definition;
+    const definition: string = data[0]?.meanings[0]?.definitions[0]?.definition;
 
-    if (!definition)
-      throw createHttpError(500, 'There is no definition for this word');
+    if (!definition) {
+      // const error = new createHttpError.BadRequest(
+      //   'There is a problem defining this word. Please check the word and try again',
+      // );
+      throw createHttpError(
+        500,
+        'There was a problem defining this word. Please check the word and try again',
+      );
+      // return next(error);
+    }
 
-    //TODO: Grab parts of speech and add it to tags
+    const partOfSpeech: string = data[0]?.meanings[0]?.partOfSpeech;
 
     const newWord = await wordModel.create({
       word,
       definition,
       contextExample,
+      partOfSpeech,
     });
     res.status(201).json(newWord);
   } catch (error) {
