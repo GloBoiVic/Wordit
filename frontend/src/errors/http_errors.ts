@@ -17,10 +17,10 @@ export class ConflictError extends HttpError {}
 /**
  * Status code 400
  */
-export class MissingParamsError extends HttpError {}
+export class BadRequestError extends HttpError {}
 
 /**
  * Status code 500
  */
 
-export class ValidationError extends HttpError {}
+export class InternalServerError extends HttpError {}
