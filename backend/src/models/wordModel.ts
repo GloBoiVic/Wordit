@@ -1,7 +1,8 @@
-import { Schema, InferSchemaType, model } from 'mongoose';
+import { InferSchemaType, Schema, model } from 'mongoose';
 
 const wordSchema = new Schema(
   {
+    userId: { type: Schema.Types.ObjectId, required: true },
     word: {
       type: String,
       lowercase: true,
