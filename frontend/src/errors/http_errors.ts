@@ -17,7 +17,7 @@ export class ConflictError extends HttpError {}
 /**
  * Status code 400
  */
-export class BadRequestError extends HttpError {}
+export class MissingParamsError extends HttpError {}
 
 /**
  * Status code 500
