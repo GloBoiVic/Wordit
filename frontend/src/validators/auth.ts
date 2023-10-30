@@ -3,7 +3,11 @@ import * as z from 'zod';
 export const signupSchema = z
   .object({
     username: z.string().min(1, { message: 'Please enter a username' }),
-    email: z.string().email().min(1, { message: 'Please enter an email address' }).email('Invalid email address'),
+    email: z
+      .string()
+      .email()
+      .min(1, { message: 'Please enter an email address' })
+      .email('Invalid email address'),
     password: z.string().min(5, { message: 'Password must be at least 5 characters' }),
     confirmPassword: z.string().min(5, { message: 'Password must be at least 5 characters' }),
   })
@@ -11,3 +15,8 @@ export const signupSchema = z
     path: ['confirmPassword'],
     message: 'Passwords does not match',
   });
+
+export const loginSchema = z.object({
+  username: z.string().min(1, { message: 'Please enter your username' }),
+  password: z.string().min(1, { message: 'Please enter your password' }),
+});

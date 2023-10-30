@@ -1,9 +1,10 @@
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
-import { ThemeProvider } from './utils/theme-provider';
-import AppLayout from './ui/AppLayout';
+import SignupPage from './features/user/SignupPage';
 import Vocab from './features/vocab/Vocab';
+import AppLayout from './ui/AppLayout';
 import ErrorPage from './ui/ErrorPage';
-import SignUpPage from './features/user/SignUpPage';
+import { ThemeProvider } from './utils/theme-provider';
+import LoginPage from './features/user/LoginPage';
 
 const router = createBrowserRouter([
   {
@@ -27,7 +28,11 @@ const router = createBrowserRouter([
       },
       {
         path: '/users/signup',
-        element: <SignUpPage />,
+        element: <SignupPage />,
+      },
+      {
+        path: '/users/login',
+        element: <LoginPage />,
       },
       {
         path: '*',

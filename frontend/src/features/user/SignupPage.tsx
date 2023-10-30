@@ -1,15 +1,22 @@
-import { Button, Input, Link } from '@nextui-org/react';
-import { NavLink } from 'react-router-dom';
-import { z } from 'zod';
+import { ExclamationCircleIcon } from '@heroicons/react/24/outline';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useForm } from 'react-hook-form';
-import { signupSchema } from '../../validators/auth';
+import { Button, Input, Link } from '@nextui-org/react';
 import { useState } from 'react';
+import { useForm } from 'react-hook-form';
+import { NavLink, useNavigate } from 'react-router-dom';
+import { z } from 'zod';
+import { ConflictError } from '../../errors/http_errors';
+import { UserModel } from '../../models/userModel';
+import * as WordsApi from '../../services/api';
+import { signupSchema } from '../../validators/auth';
 
 type TInput = z.infer<typeof signupSchema>;
 
-function SignUpPage() {
+function SignupPage() {
+  // const { setLoggedInUser } = useLoggedInUser();
+  const [loggedInUser, setLoggedInUser] = useState<UserModel | null>(null);
   const [errorText, setErrorText] = useState<string | null>(null);
+  const navigate = useNavigate();
 
   const {
     register,
@@ -25,12 +32,20 @@ function SignUpPage() {
     },
   });
 
-  // async function onSubmit(credentials: TInput) {
-  //   try {
-  //   } catch (error) {
-  //     console.error(error);
-  //   }
-  // }
+  async function onSubmit(credentials: TInput) {
+    const { username, email, password } = credentials;
+    console.log(credentials);
+    try {
+      const newUser = await WordsApi.signUp({ username, email, password });
+      setLoggedInUser(newUser);
+      navigate('/vocab');
+    } catch (error) {
+      if (error instanceof ConflictError) {
+        setErrorText(error.message);
+      }
+      console.error(error);
+    }
+  }
   return (
     <div className="w-full mx-auto space-y-6 sm:max-w-md">
       <div className="text-center">
@@ -38,55 +53,82 @@ function SignUpPage() {
           <h3 className="text-2xl font-bold sm:text-3xl">Create a Wordit Account</h3>
           <p className="">
             Already have an account?{' '}
-            <Link as={NavLink} href="javascript:void(0)" className="font-medium text-indigo-600 hover:text-indigo-500">
+            <Link
+              as={NavLink}
+              to="/users/login"
+              className="font-medium text-indigo-600 hover:text-indigo-500"
+            >
               Log in
             </Link>
           </p>
         </div>
       </div>
       <div className="p-4 py-6 bg-white shadow sm:p-6 sm:rounded-lg">
-        <form onSubmit={(e) => e.preventDefault()} className="mt-4 space-y-5">
+        <form onSubmit={handleSubmit(onSubmit)} className="mt-4 space-y-2">
+          {errorText && (
+            <div
+              className="flex items-center w-full gap-4 px-3 py-2 text-sm text-red-500 bg-red-100 border border-red-200 rounded"
+              role="alert"
+            >
+              <ExclamationCircleIcon className="w-6 h-5" />
+              <p>{errorText}</p>
+            </div>
+          )}
           <Input
             variant="bordered"
             label="Username"
             placeholder="Username"
             labelPlacement="outside"
-            name="username"
+            {...register('username')}
+            isInvalid={!!errors.username}
             classNames={{
               input: 'placeholder:text-stone-300',
             }}
           />
+          {errors.username?.message && (
+            <p className="text-xs text-red-500">{errors.username?.message}</p>
+          )}
           <Input
             variant="bordered"
             label="Email"
             placeholder="johndoe@email.com"
             labelPlacement="outside"
-            name="email"
+            {...register('email')}
+            isInvalid={!!errors.email}
             classNames={{
               input: 'placeholder:text-stone-300',
             }}
           />
+          {errors.email?.message && <p className="text-xs text-red-500">{errors.email?.message}</p>}
           <Input
             variant="bordered"
             label="Password"
             placeholder="Enter your password"
             labelPlacement="outside"
-            name="password"
+            {...register('password')}
+            isInvalid={!!errors.password}
             classNames={{
               input: 'placeholder:text-stone-300',
             }}
           />
+          {errors.password?.message && (
+            <p className="text-xs text-red-500">{errors.password?.message}</p>
+          )}
           <Input
             variant="bordered"
             label="Confirm Password"
             placeholder="Confirm your password"
             labelPlacement="outside"
-            name="confirmPassword"
+            {...register('confirmPassword')}
+            isInvalid={!!errors.confirmPassword}
             classNames={{
               input: 'placeholder:text-stone-300',
             }}
           />
-          <Button fullWidth className="bg-secondary">
+          {errors.confirmPassword?.message && (
+            <p className="text-xs text-red-500">{errors.confirmPassword?.message}</p>
+          )}
+          <Button isDisabled={isSubmitting} fullWidth type="submit" className="bg-secondary">
             Create account
           </Button>
         </form>
@@ -125,4 +167,4 @@ function SignUpPage() {
   );
 }
 
-export default SignUpPage;
+export default SignupPage;
