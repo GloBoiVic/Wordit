@@ -26,7 +26,7 @@ const router = createBrowserRouter([
         element: <h1>Vocab card page</h1>,
       },
       {
-        path: '/users/signin',
+        path: '/users/signup',
         element: <SignUpPage />,
       },
       {

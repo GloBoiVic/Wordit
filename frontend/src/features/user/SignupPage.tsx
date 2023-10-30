@@ -1,7 +1,36 @@
 import { Button, Input, Link } from '@nextui-org/react';
 import { NavLink } from 'react-router-dom';
+import { z } from 'zod';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useForm } from 'react-hook-form';
+import { signupSchema } from '../../validators/auth';
+import { useState } from 'react';
+
+type TInput = z.infer<typeof signupSchema>;
 
 function SignUpPage() {
+  const [errorText, setErrorText] = useState<string | null>(null);
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+  } = useForm<TInput>({
+    resolver: zodResolver(signupSchema),
+    defaultValues: {
+      username: '',
+      email: '',
+      password: '',
+      confirmPassword: '',
+    },
+  });
+
+  // async function onSubmit(credentials: TInput) {
+  //   try {
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // }
   return (
     <div className="w-full mx-auto space-y-6 sm:max-w-md">
       <div className="text-center">
