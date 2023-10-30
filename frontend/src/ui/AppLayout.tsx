@@ -1,12 +1,13 @@
+import { Toaster } from 'react-hot-toast';
 import { Outlet } from 'react-router-dom';
 import Header from './Header';
-import { Toaster } from 'react-hot-toast';
 
 function AppLayout() {
   return (
     <div className="h-screen">
       <Header />
 
+      {/* TODO: Add guard clause. If there is no user, then navigate to /login to protect main route */}
       <div className="mt-10">
         <Outlet />
       </div>
