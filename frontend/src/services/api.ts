@@ -1,6 +1,11 @@
-import { BadRequestError, ConflictError, InternalServerError, UnauthorizedError } from '../errors/http_errors';
-import { VocabModel } from '../models/vocabModel';
+import {
+  ConflictError,
+  InternalServerError,
+  MissingParamsError,
+  UnauthorizedError,
+} from '../errors/http_errors';
 import { UserModel } from '../models/userModel';
+import { VocabModel } from '../models/vocabModel';
 
 async function fetchData(input: RequestInfo, init?: RequestInit) {
   const response = await fetch(input, init);
@@ -12,7 +17,7 @@ async function fetchData(input: RequestInfo, init?: RequestInit) {
     const errorMessage = errorBody.error;
     switch (response.status) {
       case 400:
-        throw new BadRequestError(errorMessage);
+        throw new MissingParamsError(errorMessage);
       case 401:
         throw new UnauthorizedError(errorMessage);
       case 409:
@@ -35,6 +40,13 @@ async function fetchData(input: RequestInfo, init?: RequestInit) {
   }
 }
 
+export async function getLoggedInUser(): Promise<UserModel> {
+  const response = await fetchData('/api/v1/users', {
+    method: 'GET',
+  });
+  return response.json();
+}
+
 interface SignUpCredentials {
   username: string;
   email: string;
@@ -50,6 +62,28 @@ export async function signUp(credentials: SignUpCredentials): Promise<UserModel>
     body: JSON.stringify(credentials),
   });
   return response.json();
+}
+
+interface LoginCredentials {
+  username: string;
+  password: string;
+}
+
+export async function login(credentials: LoginCredentials): Promise<UserModel> {
+  const response = await fetchData('/api/v1/users/login', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(credentials),
+  });
+  return response.json();
+}
+
+export async function logout() {
+  await fetchData('/api/v1/users/logout', {
+    method: 'POST',
+  });
 }
 
 export async function fetchWords(): Promise<VocabModel[]> {
