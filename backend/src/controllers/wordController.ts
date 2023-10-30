@@ -3,12 +3,14 @@ import createHttpError from 'http-errors';
 import mongoose from 'mongoose';
 import wordModel from '../models/wordModel';
 import env from '../utils/validateEnv';
-
-//TODO Add user authentication to routes
+import { assertIsDefined } from '../utils/assertIsDefined';
 
 export const getWords: RequestHandler = async (req, res, next) => {
+  const authenticatedUserId = req.session.userId;
+
   try {
-    const words = await wordModel.find();
+    assertIsDefined(authenticatedUserId);
+    const words = await wordModel.find({ userId: authenticatedUserId });
 
     res.status(200).json(words);
   } catch (error) {
@@ -18,13 +20,21 @@ export const getWords: RequestHandler = async (req, res, next) => {
 
 export const getWord: RequestHandler = async (req, res, next) => {
   const wordId = req.params.wordId;
+  const authenticatedUserId = req.session.userId;
+
   try {
-    if (!mongoose.isValidObjectId(wordId))
-      throw createHttpError(400, 'Invalid note id');
+    assertIsDefined(authenticatedUserId);
+
+    if (!mongoose.isValidObjectId(wordId)) throw createHttpError(400, 'Invalid word id');
 
     const word = await wordModel.findById(wordId);
 
     if (!word) throw createHttpError(404, 'Word not found');
+
+    // Check if word belongs to user
+    if (!word.userId.equals(authenticatedUserId)) {
+      throw createHttpError(401, 'You cannot access this word');
+    }
 
     res.status(200).json(word);
   } catch (error) {
@@ -37,15 +47,16 @@ interface CreateWordBody {
   contextExample?: string;
 }
 
-export const createWord: RequestHandler<
-  unknown,
-  unknown,
-  CreateWordBody,
-  unknown
-> = async (req, res, next) => {
+export const createWord: RequestHandler<unknown, unknown, CreateWordBody, unknown> = async (
+  req,
+  res,
+  next,
+) => {
   const { word, contextExample } = req.body;
+  const authenticatedUserId = req.session.userId;
 
   try {
+    assertIsDefined(authenticatedUserId);
     if (!word) throw createHttpError(400, 'Vocabulary word cannot be blank');
 
     const existingWord = await wordModel.findOne({ word: word });
@@ -74,6 +85,7 @@ export const createWord: RequestHandler<
     const partOfSpeech: string = data[0]?.meanings[0]?.partOfSpeech;
 
     const newWord = await wordModel.create({
+      userId: authenticatedUserId,
       word,
       definition,
       contextExample,
@@ -94,24 +106,30 @@ interface UpdateWordBody {
   contextExample?: string;
 }
 
-export const updateWord: RequestHandler<
-  UpdateWordParams,
-  unknown,
-  UpdateWordBody
-> = async (req, res, next) => {
+export const updateWord: RequestHandler<UpdateWordParams, unknown, UpdateWordBody> = async (
+  req,
+  res,
+  next,
+) => {
   const wordId = req.params.wordId;
   const newWord = req.body.word;
   const newContextExample = req.body.contextExample;
+  const authenticatedUserId = req.session.userId;
 
   try {
-    if (!mongoose.isValidObjectId(wordId))
-      throw createHttpError(400, 'Invalid note id');
+    assertIsDefined(authenticatedUserId);
+    if (!mongoose.isValidObjectId(wordId)) throw createHttpError(400, 'Invalid word id');
 
     if (!newWord) throw createHttpError(400, 'Vocabulary word cannot be blank');
 
     const word = await wordModel.findById(wordId);
 
     if (!word) throw createHttpError(404, ' Word not found');
+
+    // Check if word belongs to user
+    if (!word.userId.equals(authenticatedUserId)) {
+      throw createHttpError(401, 'You cannot access this word');
+    }
 
     const apiResponse = await fetch(`${env.DICTIONARY_API}/${newWord}`, {
       method: 'GET',
@@ -135,14 +153,20 @@ export const updateWord: RequestHandler<
 
 export const deleteWord: RequestHandler = async (req, res, next) => {
   const wordId = req.params.wordId;
+  const authenticatedUserId = req.session.userId;
 
   try {
-    if (!mongoose.isValidObjectId(wordId))
-      throw createHttpError(400, 'Invalid word id');
+    assertIsDefined(authenticatedUserId);
+    if (!mongoose.isValidObjectId(wordId)) throw createHttpError(400, 'Invalid word id');
 
     const word = await wordModel.findById(wordId);
 
     if (!word) throw createHttpError(404, 'Word not found');
+
+    // Check if word belongs to user
+    if (!word.userId.equals(authenticatedUserId)) {
+      throw createHttpError(401, 'You cannot access this word');
+    }
 
     await word.deleteOne();
 
