@@ -1,5 +1,4 @@
-import { useEffect, useState } from 'react';
-import * as WordsApi from '../services/api';
+import { useState } from 'react';
 import { UserModel } from '../models/userModel';
 
 function useLoggedInUser() {
