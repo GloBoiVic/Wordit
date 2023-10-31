@@ -3,23 +3,16 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { Button, Input, Link } from '@nextui-org/react';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { NavLink, useNavigate } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import { z } from 'zod';
-import { MissingParamsError, UnauthorizedError } from '../../errors/http_errors';
-import useLoggedInUser from '../../hooks/useLoggedInUser';
-import * as WordsApi from '../../services/api';
 import { loginSchema } from '../../validators/auth';
 import useLoginUser from './useLoginUser';
-import useGetUsers from './useGetUser';
 
 type TInput = z.infer<typeof loginSchema>;
 
 function LoginPage() {
-  // const { setLoggedInUser } = useLoggedInUser();
   const { logInUser } = useLoginUser();
-  // const { user } = useGetUsers();
-  const [errorText, setErrorText] = useState<string | null>(null);
-  const navigate = useNavigate();
+  // const [errorText, setErrorText] = useState<string | null>(null);
 
   const {
     register,
@@ -33,22 +26,9 @@ function LoginPage() {
     },
   });
 
-  async function onSubmit(credentials: TInput) {
-    try {
-      // const user = await WordsApi.login(credentials);
-      // setLoggedInUser(user);
-      logInUser(credentials);
-      navigate('/vocab');
-    } catch (error) {
-      if (error instanceof UnauthorizedError) {
-        setErrorText(error.message);
-      }
-      if (error instanceof MissingParamsError) {
-        setErrorText(error.message);
-      }
-      console.error(error);
-    }
-  }
+  const onSubmit = (credentials: TInput) => {
+    logInUser(credentials);
+  };
   return (
     <div className="w-full mx-auto space-y-6 sm:max-w-md">
       <div className="text-center">
