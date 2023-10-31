@@ -5,6 +5,17 @@ import AppLayout from './ui/AppLayout';
 import ErrorPage from './ui/ErrorPage';
 import { ThemeProvider } from './utils/theme-provider';
 import LoginPage from './features/user/LoginPage';
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      // staleTime: 60 * 1000,
+      staleTime: 0, // automatically refetches the data
+    },
+  },
+});
 
 const router = createBrowserRouter([
   {
@@ -45,7 +56,10 @@ const router = createBrowserRouter([
 function App() {
   return (
     <ThemeProvider defaultTheme="light" storageKey="vite-ui-theme">
-      <RouterProvider router={router}></RouterProvider>
+      <QueryClientProvider client={queryClient}>
+        <ReactQueryDevtools initialIsOpen={false} />
+        <RouterProvider router={router}></RouterProvider>
+      </QueryClientProvider>
     </ThemeProvider>
   );
 }
