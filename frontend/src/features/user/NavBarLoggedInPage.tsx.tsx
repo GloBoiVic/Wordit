@@ -1,27 +1,19 @@
 import { Avatar, Link } from '@nextui-org/react';
 import { NavLink } from 'react-router-dom';
-import { UserModel } from '../../models/userModel';
-import * as WordsApi from '../../services/api';
+import useGetUsers from './useGetUser';
+import useLogoutUser from './useLogoutUser';
 
-interface NavBarLoggedInPageProps {
-  user: UserModel;
-  onLogoutSuccessful: () => void;
-}
+function NavBarLoggedInPage() {
+  const { user } = useGetUsers();
+  const { logoutUser } = useLogoutUser();
 
-function NavBarLoggedInPage({ user, onLogoutSuccessful }: NavBarLoggedInPageProps) {
   async function logout() {
-    try {
-      await WordsApi.logout();
-      onLogoutSuccessful();
-    } catch (error) {
-      console.error(error);
-      alert(error);
-    }
+    logoutUser();
   }
   return (
     <>
       {/* TODO: Add proper routes to links */}
-      <Avatar src={user.profilePicture} />
+      <Avatar src={user?.profilePicture} />
       <Link as={NavLink} to="/users/login" onClick={logout}>
         Log Out
       </Link>
