@@ -8,7 +8,7 @@ function useLogoutUser() {
     mutationFn: logout,
     onSuccess: () => {
       toast.success('Logout successful');
-      queryClient.invalidateQueries({ queryKey: ['users'] });
+      queryClient.removeQueries({ queryKey: ['users'] });
     },
     onError: (err) => toast.error(err.message),
   });
