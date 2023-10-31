@@ -29,6 +29,7 @@ function VocabCard({ word, onDeleteWordClicked, onWordClicked }: VocabCardProps)
           <span className="text-2xl font-bold capitalize ">{vocabWord}</span>
           <span className="text-sm text-slate-400">{partOfSpeech}</span>
         </div>
+        {/* TODO: Add a popup modal and ask user to confirm they want to delete the word */}
         <TrashIcon
           onClick={(e) => {
             e.stopPropagation();

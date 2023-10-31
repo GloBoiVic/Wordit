@@ -1,6 +1,15 @@
 import { ExclamationCircleIcon } from '@heroicons/react/24/outline';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Button, Input, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader, Textarea } from '@nextui-org/react';
+import {
+  Button,
+  Input,
+  Modal,
+  ModalBody,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  Textarea,
+} from '@nextui-org/react';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
@@ -78,7 +87,9 @@ function CreateEditWordModal({ onDismiss, onWordSaved, wordToEdit }: CreateEditW
                 name="word"
                 isInvalid={!!errors.word}
               />
-              {errors.word?.message && <p className="mt-1 text-xs text-red-500">{errors.word?.message}</p>}
+              {errors.word?.message && (
+                <p className="mt-1 text-xs text-red-500">{errors.word?.message}</p>
+              )}
               <Textarea
                 {...register('contextExample')}
                 placeholder="Context"
