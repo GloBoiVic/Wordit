@@ -6,14 +6,14 @@ import { useForm } from 'react-hook-form';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { z } from 'zod';
 import { MissingParamsError, UnauthorizedError } from '../../errors/http_errors';
-import { UserModel } from '../../models/userModel';
+import useLoggedInUser from '../../hooks/useLoggedInUser';
 import * as WordsApi from '../../services/api';
 import { loginSchema } from '../../validators/auth';
 
 type TInput = z.infer<typeof loginSchema>;
 
 function LoginPage() {
-  const [loggedInUser, setLoggedInUser] = useState<UserModel | null>(null);
+  const { setLoggedInUser } = useLoggedInUser();
   const [errorText, setErrorText] = useState<string | null>(null);
   const navigate = useNavigate();
 
