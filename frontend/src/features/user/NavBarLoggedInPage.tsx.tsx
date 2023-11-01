@@ -12,9 +12,12 @@ function NavBarLoggedInPage() {
   }
   return (
     <>
-      {/* TODO: Add proper routes to links */}
+      {/* TODO: Add link to user profile page */}
       <Avatar src={user?.profilePicture} />
-      <Link as={NavLink} to="/users/login" onClick={logout}>
+      <Link as={NavLink} to="/vocab" underline="hover" onClick={logout}>
+        Vocab
+      </Link>
+      <Link as={NavLink} underline="hover" to="/" onClick={logout}>
         Log Out
       </Link>
     </>

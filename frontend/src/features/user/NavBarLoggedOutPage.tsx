@@ -4,10 +4,10 @@ import { NavLink } from 'react-router-dom';
 function NavBarLoggedOutPage() {
   return (
     <>
-      <Link as={NavLink} to="/users/signup">
+      <Link as={NavLink} to="/users/signup" underline="hover">
         Sign Up
       </Link>
-      <Link as={NavLink} to="/users/login">
+      <Link as={NavLink} to="/users/login" underline="hover">
         Log In
       </Link>
     </>
