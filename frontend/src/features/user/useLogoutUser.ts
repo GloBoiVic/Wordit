@@ -9,6 +9,7 @@ function useLogoutUser() {
     mutationFn: logout,
     onSuccess: () => {
       queryClient.resetQueries({ queryKey: ['users'] });
+      queryClient.removeQueries({ queryKey: ['words'] });
       navigate('/');
     },
     onError: (err) => console.error(err.message),
