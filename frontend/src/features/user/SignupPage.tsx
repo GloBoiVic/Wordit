@@ -6,12 +6,12 @@ import { useForm } from 'react-hook-form';
 import { NavLink } from 'react-router-dom';
 import { z } from 'zod';
 import { signupSchema } from '../../validators/auth';
-import useSignupUser from './useSignupUser';
+import useCreateUser from './useCreateUser';
 
 type TInput = z.infer<typeof signupSchema>;
 
 function SignupPage() {
-  const { signupUser, isSigningUp } = useSignupUser();
+  const { createUser, isCreating } = useCreateUser();
   const [errorText, setErrorText] = useState<string | null>(null);
 
   const {
@@ -29,7 +29,7 @@ function SignupPage() {
   });
 
   const onSubmit = (credentials: TInput) => {
-    signupUser(credentials, {
+    createUser(credentials, {
       onError: (error) => setErrorText(error.message),
     });
   };
@@ -118,7 +118,7 @@ function SignupPage() {
             {errors.confirmPassword?.message && (
               <p className="text-xs text-red-500">{errors.confirmPassword?.message}</p>
             )}
-            <Button isDisabled={isSigningUp} fullWidth type="submit" className="bg-secondary">
+            <Button isDisabled={isCreating} fullWidth type="submit" className="bg-secondary">
               Create account
             </Button>
           </form>
