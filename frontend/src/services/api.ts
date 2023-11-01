@@ -81,9 +81,10 @@ export async function login(credentials: LoginCredentials): Promise<UserModel> {
 }
 
 export async function logout() {
-  await fetchData('/api/v1/users/logout', {
+  const response = await fetchData('/api/v1/users/logout', {
     method: 'POST',
   });
+  return response;
 }
 
 export async function fetchWords(): Promise<VocabModel[]> {
