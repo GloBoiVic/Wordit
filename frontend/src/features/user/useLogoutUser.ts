@@ -1,16 +1,17 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useNavigate } from 'react-router-dom';
 import { logout } from '../../services/api';
-import toast from 'react-hot-toast';
 
 function useLogoutUser() {
   const queryClient = useQueryClient();
+  const navigate = useNavigate();
   const { mutate: logoutUser, isPending: isLoggingOut } = useMutation({
     mutationFn: logout,
     onSuccess: () => {
-      toast.success('Logout successful');
-      queryClient.removeQueries({ queryKey: ['users'] });
+      queryClient.invalidateQueries({ queryKey: ['users'] });
+      navigate('/');
     },
-    onError: (err) => toast.error(err.message),
+    onError: (err) => console.error(err.message),
   });
 
   return { logoutUser, isLoggingOut };

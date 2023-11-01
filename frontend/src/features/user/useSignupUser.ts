@@ -1,18 +1,18 @@
 import { useMutation } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
-import { login } from '../../services/api';
+import { signUp } from '../../services/api';
 
-function useLoginUser() {
+function useSignupUser() {
   const navigate = useNavigate();
-  const { mutate: loginUser, isPending: isLogginIn } = useMutation({
-    mutationFn: login,
+  const { mutate: signupUser, isPending: isSigningUp } = useMutation({
+    mutationFn: signUp,
     onSuccess: () => {
       navigate('/vocab');
     },
     onError: (err) => console.error(err.message),
   });
 
-  return { loginUser, isLogginIn };
+  return { signupUser, isSigningUp };
 }
 
-export default useLoginUser;
+export default useSignupUser;
