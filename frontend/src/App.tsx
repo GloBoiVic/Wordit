@@ -11,8 +11,8 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
-      // staleTime: 60 * 1000,
-      staleTime: 0, // automatically refetches the data
+      staleTime: 60 * 1000,
+      // staleTime: 0, // automatically refetches the data
     },
   },
 });
@@ -20,12 +20,12 @@ const queryClient = new QueryClient({
 const router = createBrowserRouter([
   {
     element: <AppLayout />,
-    errorElement: <p>Error Page</p>,
 
     // Nested routes
     children: [
       {
         path: '/',
+        index: true,
         element: <h1>Landing Page</h1>,
       },
       {
@@ -38,18 +38,18 @@ const router = createBrowserRouter([
         element: <h1>Vocab card page</h1>,
       },
       {
-        path: '/users/signup',
-        element: <SignupPage />,
-      },
-      {
-        path: '/users/login',
-        element: <LoginPage />,
-      },
-      {
         path: '*',
-        element: <h1>Page not found</h1>,
+        element: <ErrorPage />,
       },
     ],
+  },
+  {
+    path: '/users/signup',
+    element: <SignupPage />,
+  },
+  {
+    path: '/users/login',
+    element: <LoginPage />,
   },
 ]);
 
