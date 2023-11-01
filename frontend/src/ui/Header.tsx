@@ -14,7 +14,7 @@ function Header() {
         <h1 className="text-4xl font-bold leading-relaxed uppercase">Wordit</h1>
       </Link>
 
-      <ul className="flex gap-8">
+      <ul className="flex gap-8 uppercase">
         {user ? <NavBarLoggedInPage /> : <NavBarLoggedOutPage />}
         {/* {!loggedInUser && <NavBarLoggedOutPage />} */}
       </ul>
