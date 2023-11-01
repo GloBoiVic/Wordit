@@ -1,16 +1,15 @@
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useMutation } from '@tanstack/react-query';
+import { useNavigate } from 'react-router-dom';
 import { signUp } from '../../services/api';
-import toast from 'react-hot-toast';
 
 function useCreateUser() {
-  const queryClient = useQueryClient();
+  const navigate = useNavigate();
   const { mutate: createUser, isPending: isCreating } = useMutation({
     mutationFn: signUp,
     onSuccess: () => {
-      toast.success('New user successfully created');
-      queryClient.invalidateQueries({ queryKey: ['users'] });
+      navigate('/vocab');
     },
-    onError: (err) => toast.error(err.message),
+    onError: (err) => console.error(err.message),
   });
 
   return { createUser, isCreating };

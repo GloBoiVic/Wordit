@@ -8,7 +8,7 @@ function useLogoutUser() {
   const { mutate: logoutUser, isPending: isLoggingOut } = useMutation({
     mutationFn: logout,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['users'] });
+      queryClient.resetQueries({ queryKey: ['users'] });
       navigate('/');
     },
     onError: (err) => console.error(err.message),
