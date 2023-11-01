@@ -6,7 +6,6 @@ import useGetUsers from '../features/user/useGetUser.ts';
 
 function Header() {
   const { user } = useGetUsers();
-  console.log(user);
 
   return (
     <header className="flex items-center justify-between w-full h-12 px-4 py-2 mx-auto border">
