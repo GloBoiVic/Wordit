@@ -106,12 +106,12 @@ export async function createWord(word: wordInput): Promise<VocabModel> {
     },
     body: JSON.stringify(word),
   });
-  console.log(response);
 
   return response.json();
 }
 
 export async function updateWord(wordId: string, word: wordInput): Promise<VocabModel> {
+  console.log(wordId);
   const response = await fetchData(`/api/v1/words/${wordId}`, {
     method: 'PATCH',
     headers: {
