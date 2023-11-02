@@ -1,7 +1,9 @@
 import { TrashIcon } from '@heroicons/react/24/outline';
 import { Card, CardBody, CardFooter, CardHeader } from '@nextui-org/react';
+import { useState } from 'react';
 import { VocabModel } from '../../models/vocabModel';
 import { formatDate } from '../../utils/formatDate';
+import ConfirmDeleteModal from './ConfirmDeleteModal';
 import useDeleteWord from './useDeleteWord';
 
 interface VocabCardProps {
@@ -12,6 +14,7 @@ interface VocabCardProps {
 function VocabCard({ word, onWordClicked }: VocabCardProps) {
   const { word: vocabWord, definition, contextExample, partOfSpeech, createdAt, updatedAt } = word;
   const { deleteWord } = useDeleteWord();
+  const [showDeleteWordModal, setShowDeleteWordModal] = useState(false);
 
   let createdUpdatedText: string;
 
@@ -29,14 +32,20 @@ function VocabCard({ word, onWordClicked }: VocabCardProps) {
           <span className="text-2xl font-bold capitalize ">{vocabWord}</span>
           <span className="text-sm text-slate-400">{partOfSpeech}</span>
         </div>
-        {/* TODO: Add a popup modal and ask user to confirm they want to delete the word */}
         <TrashIcon
           onClick={(e) => {
             e.stopPropagation();
-            deleteWord(word._id);
+            setShowDeleteWordModal(true);
           }}
           className="w-4 h-4 text-red-600 cursor-pointer"
         />
+        {showDeleteWordModal && (
+          <ConfirmDeleteModal
+            onDismiss={() => setShowDeleteWordModal(false)}
+            onConfirmDelete={() => deleteWord(word._id)}
+            vocabWord={vocabWord}
+          />
+        )}
       </CardHeader>
       <CardBody className="pb-2">{definition}</CardBody>
       {contextExample && contextExample?.length > 0 && (

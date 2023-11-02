@@ -12,19 +12,17 @@ import {
 } from '@nextui-org/react';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import toast from 'react-hot-toast';
 import { z } from 'zod';
-import { InternalServerError } from '../../errors/http_errors';
 import { VocabModel } from '../../models/vocabModel';
-import * as WordsApi from '../../services/api';
 import { wordSchema } from '../../validators/validateWordInput';
 import useCreateWord from './useCreateWord';
 import useUpdateWord from './useUpdateWord';
+import { ConflictError } from '../../errors/http_errors';
 
 interface CreateEditWordModalProps {
   onDismiss: () => void;
   // onWordSaved: (word: VocabModel) => void;
-  onWordEdit: () => void;
+  onWordEdit?: () => void;
   wordToEdit?: VocabModel;
 }
 
@@ -76,11 +74,18 @@ function CreateEditWordModal({ onDismiss, wordToEdit, onWordEdit }: CreateEditWo
   function onSubmit(values: TInput) {
     if (wordToEdit) {
       updateWord(id, values);
-      onWordEdit();
+      onWordEdit?.();
       onDismiss();
     } else {
-      createWord(values);
-      onDismiss();
+      console.log(values);
+      createWord(values, {
+        onError: (error) => {
+          // if(error instanceof ConflictError)
+          // server is throwing error code 500. Why??
+          setErrorText(error.message);
+        },
+        onSuccess: () => onDismiss(),
+      });
     }
   }
 
@@ -94,10 +99,10 @@ function CreateEditWordModal({ onDismiss, wordToEdit, onWordEdit }: CreateEditWo
           <ModalBody>
             {errorText && (
               <div
-                className="flex items-center w-full gap-4 px-3 py-2 text-sm text-red-500 bg-red-200 border border-red-200 rounded"
+                className="flex items-center w-full gap-4 px-3 py-2 text-sm text-red-500 bg-red-100 border border-red-200 rounded"
                 role="alert"
               >
-                <ExclamationCircleIcon />
+                <ExclamationCircleIcon className="w-6 h-5" />
                 <p>{errorText}</p>
               </div>
             )}

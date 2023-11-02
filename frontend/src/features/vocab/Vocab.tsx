@@ -1,19 +1,16 @@
-import { useEffect, useState } from 'react';
-import { VocabModel } from '../../models/vocabModel';
-import * as WordsApi from '../../services/api';
-import Sidebar from '../../ui/Sidebar';
-import VocabCard from './VocabCard';
-import CreateEditWordModal from './CreateEditWordModal';
 import { Skeleton } from '@nextui-org/react';
+import { useState } from 'react';
+import { VocabModel } from '../../models/vocabModel';
 import ErrorVocabPage from '../../ui/ErrorVocabPage';
+import Sidebar from '../../ui/Sidebar';
+import CreateEditWordModal from './CreateEditWordModal';
+import VocabCard from './VocabCard';
 import useGetWords from './useGetWords';
 
 function Vocab() {
-  const [wordsLoading, setWordsLoading] = useState(true);
   const [showAddWordModal, setShowAddWordModal] = useState(false);
   // const [words, setWords] = useState<VocabModel[]>([]);
   const [wordToEdit, setWordToEdit] = useState<VocabModel | null>(null);
-  const [showWordLoadingError, setShowWordLoadingError] = useState(false);
 
   const { words, isLoading, error } = useGetWords();
 
