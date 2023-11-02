@@ -12,7 +12,7 @@ function useCreateWord() {
       });
       queryClient.invalidateQueries({ queryKey: ['words'] });
     },
-    onError: (err) => toast.error(err.message),
+    onError: (err) => console.error(err.message),
   });
   return { isCreating, createWord };
 }
