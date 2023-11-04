@@ -9,7 +9,6 @@ import useGetWords from './useGetWords';
 
 function Vocab() {
   const [showAddWordModal, setShowAddWordModal] = useState(false);
-  // const [words, setWords] = useState<VocabModel[]>([]);
   const [wordToEdit, setWordToEdit] = useState<VocabModel | null>(null);
 
   const { words, isLoading, error } = useGetWords();
@@ -27,28 +26,12 @@ function Vocab() {
   return (
     <div className="flex flex-col h-[90vh] gap-3 px-4 sm:flex-row">
       <Sidebar onDismiss={() => setShowAddWordModal(true)}>
-        {showAddWordModal && (
-          <CreateEditWordModal
-            onDismiss={() => setShowAddWordModal(false)}
-            // onWordSaved={(newWord) => {
-            //   setWords([...words, newWord]);
-            //   setShowAddWordModal(false);
-            // }}
-          />
-        )}
+        {showAddWordModal && <CreateEditWordModal onDismiss={() => setShowAddWordModal(false)} />}
         {wordToEdit && (
           <CreateEditWordModal
             wordToEdit={wordToEdit}
             onDismiss={() => setWordToEdit(null)}
             onWordEdit={() => setWordToEdit(null)}
-            // onWordSaved={(updatedWord) => {
-            //   setWords(
-            //     words.map((existingWord) =>
-            //       existingWord._id === updatedWord._id ? updatedWord : existingWord,
-            //     ),
-            //   );
-            //   setWordToEdit(null);
-            // }}
           />
         )}
       </Sidebar>

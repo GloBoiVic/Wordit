@@ -27,7 +27,6 @@ function VocabCard({ word, onWordClicked }: VocabCardProps) {
   return (
     <Card isPressable onClick={() => onWordClicked(word)} className="w-[15rem] cursor-pointer">
       <CardHeader className="flex items-center border-b">
-        {/* TODO: Fix delete icon being squished on screen shrink */}
         <div className="mr-auto space-x-2">
           <span className="text-2xl font-bold capitalize ">{vocabWord}</span>
           <span className="text-sm text-slate-400">{partOfSpeech}</span>
