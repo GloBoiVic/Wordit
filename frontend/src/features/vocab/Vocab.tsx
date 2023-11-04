@@ -64,7 +64,7 @@ function Vocab() {
 
       {!isLoading && !error && (
         <>
-          {words && words?.length > 0 ? (
+          {words && words.length ? (
             wordsGrid
           ) : (
             <p className="mx-3 text-xl font-semibold">

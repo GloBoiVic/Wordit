@@ -19,7 +19,7 @@ function ConfirmDeleteModal({ onDismiss, vocabWord, onConfirmDelete }: ConfirmDe
       <ModalContent>
         {(onClose) => (
           <>
-            <ModalHeader className="flex flex-col gap-1">Delete {vocabWord}</ModalHeader>
+            <ModalHeader className="flex flex-col gap-1">Delete word: {vocabWord}</ModalHeader>
             <ModalBody>
               <p>
                 Are you sure you want to delete{' '}

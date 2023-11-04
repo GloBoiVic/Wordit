@@ -8,7 +8,7 @@ function NavBarLoggedOutPage() {
         Sign Up
       </Link>
       <Link as={NavLink} to="/users/login" underline="hover">
-        Log In
+        Login
       </Link>
     </>
   );
