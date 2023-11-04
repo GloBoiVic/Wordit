@@ -17,11 +17,9 @@ import { VocabModel } from '../../models/vocabModel';
 import { wordSchema } from '../../validators/validateWordInput';
 import useCreateWord from './useCreateWord';
 import useUpdateWord from './useUpdateWord';
-import { ConflictError } from '../../errors/http_errors';
 
 interface CreateEditWordModalProps {
   onDismiss: () => void;
-  // onWordSaved: (word: VocabModel) => void;
   onWordEdit?: () => void;
   wordToEdit?: VocabModel;
 }
@@ -34,13 +32,11 @@ function CreateEditWordModal({ onDismiss, wordToEdit, onWordEdit }: CreateEditWo
   const { updateWord, isUpdating } = useUpdateWord();
 
   const isWorking = isCreating || isUpdating;
-  console.log(wordToEdit);
-  const id = wordToEdit?._id;
 
   const {
     register,
     handleSubmit,
-    formState: { errors, isSubmitting, isValid },
+    formState: { errors },
   } = useForm<TInput>({
     resolver: zodResolver(wordSchema),
     defaultValues: {
@@ -49,38 +45,18 @@ function CreateEditWordModal({ onDismiss, wordToEdit, onWordEdit }: CreateEditWo
     },
   });
 
-  // async function onSubmit(values: TInput) {
-  //   try {
-  //     let wordResponse;
-
-  //     if (wordToEdit) {
-  //       wordResponse = await WordsApi.updateWord(wordToEdit._id, values);
-  //     } else {
-  //       wordResponse = await WordsApi.createWord(values);
-  //     }
-  //     onWordSaved(wordResponse);
-  //   } catch (error) {
-  //     if (error instanceof InternalServerError) {
-  //       setErrorText(error.message);
-  //     } else {
-  //       alert(error);
-  //     }
-  //     console.error(error);
-  //   }
-  // }
-
-  // TODO: id coming back as underfined!!
-  // NOTE: Google how to perform an update with react query
   function onSubmit(values: TInput) {
     if (wordToEdit) {
-      updateWord(id, values);
+      const updateValue = {
+        id: wordToEdit._id,
+        values,
+      };
+      updateWord(updateValue);
       onWordEdit?.();
       onDismiss();
     } else {
-      console.log(values);
       createWord(values, {
         onError: (error) => {
-          // if(error instanceof ConflictError)
           // server is throwing error code 500. Why??
           setErrorText(error.message);
         },
