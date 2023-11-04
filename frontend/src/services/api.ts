@@ -27,16 +27,6 @@ async function fetchData(input: RequestInfo, init?: RequestInit) {
       default:
         throw Error(`Request failed with status: ${response.status}. message: ${errorMessage}`);
     }
-    // if (response.status === 401) {
-    //   throw new UnauthorizedError(errorMessage);
-    // }
-    // if (response.status === 409) {
-    //   throw new ConflictError(errorMessage);
-    // }
-    // if (response.status === 400) {
-    //   throw new BadRequestError(errorMessage);
-    // }
-    // throw Error(`Request failed with status: ${response.status}. message: ${errorMessage}`);
   }
 }
 
@@ -111,7 +101,6 @@ export async function createWord(word: wordInput): Promise<VocabModel> {
 }
 
 export async function updateWord(wordId: string, word: wordInput): Promise<VocabModel> {
-  console.log(wordId);
   const response = await fetchData(`/api/v1/words/${wordId}`, {
     method: 'PATCH',
     headers: {
