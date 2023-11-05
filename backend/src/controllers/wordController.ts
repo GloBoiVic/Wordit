@@ -72,14 +72,10 @@ export const createWord: RequestHandler<unknown, unknown, CreateWordBody, unknow
     const definition: string = data[0]?.meanings[0]?.definitions[0]?.definition;
 
     if (!definition) {
-      // const error = new createHttpError.BadRequest(
-      //   'There is a problem defining this word. Please check the word and try again',
-      // );
       throw createHttpError(
         500,
         'There was a problem defining this word. Please check the word and try again',
       );
-      // return next(error);
     }
 
     const partOfSpeech: string = data[0]?.meanings[0]?.partOfSpeech;
