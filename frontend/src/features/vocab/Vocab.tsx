@@ -1,5 +1,5 @@
 import { Skeleton } from '@nextui-org/react';
-import { useState } from 'react';
+import { ChangeEvent, useState } from 'react';
 import { VocabModel } from '../../models/vocabModel';
 import ErrorVocabPage from '../../ui/ErrorVocabPage';
 import Sidebar from '../../ui/Sidebar';
@@ -10,8 +10,8 @@ import useGetWords from './useGetWords';
 function Vocab() {
   const [showAddWordModal, setShowAddWordModal] = useState(false);
   const [wordToEdit, setWordToEdit] = useState<VocabModel | null>(null);
-
   const { words, isLoading, error } = useGetWords();
+  const ascend = words?.map((word) => word.word).sort();
 
   if (error) return <ErrorVocabPage />;
 
