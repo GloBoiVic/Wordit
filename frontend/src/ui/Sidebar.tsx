@@ -1,25 +1,13 @@
-import { PlusCircleIcon } from '@heroicons/react/24/outline';
-import { Button, Select, SelectItem } from '@nextui-org/react';
-import { ChangeEvent, ReactNode, useState } from 'react';
-import useGetWords from '../features/vocab/useGetWords';
+import { MagnifyingGlassIcon, PlusCircleIcon } from '@heroicons/react/24/outline';
+import { Button, Input } from '@nextui-org/react';
+import { ReactNode } from 'react';
 
 type SidebarProps = {
   onDismiss: () => void;
   children: ReactNode;
 };
 
-const selectValues = [
-  { key: 0, item: 'Ascend' },
-  { key: 1, item: 'Decend' },
-];
-
 function Sidebar({ onDismiss, children }: SidebarProps) {
-  const [sortValue, setSortValue] = useState('');
-
-  const handleSelectionChange = (e: ChangeEvent<HTMLSelectElement>) => {
-    setSortValue(e.target.value);
-  };
-
   return (
     <>
       <aside className="px-2 py-4 sm:w-[250px] sm:border-r">
@@ -32,20 +20,12 @@ function Sidebar({ onDismiss, children }: SidebarProps) {
           >
             <span className="font-semibold capitalize">Add word</span>
           </Button>
-          <Select label="Sort By:" selectedKeys={[sortValue]} onChange={handleSelectionChange}>
-            {selectValues.map((val) => (
-              <SelectItem key={val.key} value={val.item}>
-                {val.item}
-              </SelectItem>
-            ))}
-            {/* <SelectItem key={1} value={'Ascend'}>
-              Ascend
-            </SelectItem>
-            <SelectItem key={2} value={'Decend'}>
-              Decend
-            </SelectItem> */}
-          </Select>
-          <p>Selected value: {sortValue}</p>
+          <Input
+            placeholder="Search..."
+            type="text"
+            radius="md"
+            startContent={<MagnifyingGlassIcon className="w-5 h-5" />}
+          />
         </div>
       </aside>
 
