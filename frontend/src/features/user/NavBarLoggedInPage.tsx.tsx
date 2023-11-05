@@ -15,7 +15,7 @@ function NavBarLoggedInPage() {
       {/* TODO: Add link to user profile page */}
       <Avatar src={user?.profilePicture} />
       <Link as={NavLink} to="/vocab" underline="hover">
-        Vocab
+        My Words
       </Link>
       <Link as={NavLink} underline="hover" to="/" onClick={logout}>
         Log Out
