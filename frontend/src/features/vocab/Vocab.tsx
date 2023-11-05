@@ -1,5 +1,5 @@
 import { Skeleton } from '@nextui-org/react';
-import { ChangeEvent, useState } from 'react';
+import { ChangeEvent, useEffect, useState } from 'react';
 import { VocabModel } from '../../models/vocabModel';
 import ErrorVocabPage from '../../ui/ErrorVocabPage';
 import Sidebar from '../../ui/Sidebar';
@@ -11,13 +11,19 @@ function Vocab() {
   const [showAddWordModal, setShowAddWordModal] = useState(false);
   const [wordToEdit, setWordToEdit] = useState<VocabModel | null>(null);
   const { words, isLoading, error } = useGetWords();
-  const ascend = words?.map((word) => word.word).sort();
+  const [searchQuery, setSearchQuery] = useState('');
+
+  const handleSearchQuery = (e: ChangeEvent<HTMLInputElement>) => {
+    e.preventDefault();
+    setSearchQuery(e.target.value);
+  };
+  console.log(words);
 
   if (error) return <ErrorVocabPage />;
 
   const wordsGrid = (
     <main className="grid flex-1 max-w-2xl gap-2 px-2 py-4 mx-3 overflow-auto lg:grid-cols-3 xl:grid-cols-4 auto-rows-min lg:mx-0 sm:grid-cols-2 min-w-fit sm:max-w-fit">
-      {words?.map((word) => (
+      {words?.map((word: VocabModel) => (
         <VocabCard onWordClicked={setWordToEdit} word={word} key={word._id} />
       ))}
     </main>
@@ -26,7 +32,13 @@ function Vocab() {
   return (
     <div className="flex flex-col h-[90vh] gap-3 px-4 sm:flex-row">
       <Sidebar onDismiss={() => setShowAddWordModal(true)}>
-        {showAddWordModal && <CreateEditWordModal onDismiss={() => setShowAddWordModal(false)} />}
+        {showAddWordModal && (
+          <CreateEditWordModal
+            onDismiss={() => setShowAddWordModal(false)}
+            searchQuery={searchQuery}
+            onHandleChange={handleSearchQuery}
+          />
+        )}
         {wordToEdit && (
           <CreateEditWordModal
             wordToEdit={wordToEdit}
