@@ -21,8 +21,8 @@ function LoginPage() {
   } = useForm<TInput>({
     resolver: zodResolver(loginSchema),
     defaultValues: {
-      username: '',
-      password: '',
+      username: 'demo',
+      password: 'test1234',
     },
   });
 
