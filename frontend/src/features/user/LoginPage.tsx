@@ -37,7 +37,7 @@ function LoginPage() {
         <div className="text-center">
           <div className="space-y-2">
             <h3 className="text-2xl font-bold sm:text-3xl">Log in to your Wordit Account</h3>
-            <p className="">
+            <p className="text-foreground/70">
               Don't have an account?{' '}
               <Link
                 as={NavLink}
@@ -49,7 +49,7 @@ function LoginPage() {
             </p>
           </div>
         </div>
-        <div className="p-4 bg-white shadow sm:p-6 sm:rounded-lg">
+        <div className="p-4 border shadow-lg dark:border-secondary sm:p-6 sm:rounded-lg">
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-2 ">
             {errorText && (
               <div
@@ -88,7 +88,7 @@ function LoginPage() {
             {errors.password?.message && (
               <p className="text-xs text-red-500">{errors.password?.message}</p>
             )}
-            <Button isDisabled={isLogginIn} fullWidth type="submit" className="bg-secondary">
+            <Button isDisabled={isLogginIn} fullWidth type="submit" className="bg-primary">
               Log in
             </Button>
           </form>

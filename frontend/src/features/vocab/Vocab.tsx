@@ -12,7 +12,7 @@ function Vocab() {
   const [wordToEdit, setWordToEdit] = useState<VocabModel | null>(null);
   const { words, isLoading, error } = useGetWords();
   console.log(
-    words.filter((word: VocabModel) => word.word.toLowerCase().includes('DEMO'.toLowerCase())),
+    words?.filter((word: VocabModel) => word.word.toLowerCase().includes('DEMO'.toLowerCase())),
   );
 
   if (error) return <ErrorVocabPage />;
@@ -40,10 +40,10 @@ function Vocab() {
 
       {isLoading && (
         <div className="grid flex-1 max-w-2xl gap-2 px-2 py-4 mx-3 overflow-auto lg:grid-cols-3 xl:grid-cols-4 auto-rows-min lg:mx-0 sm:grid-cols-2 min-w-fit sm:max-w-fit">
-          <Skeleton className="w-[15rem] h-[12rem] bg-secondary rounded-md shadow-md border-slate-200 dark:border-slate-700"></Skeleton>
-          <Skeleton className="w-[15rem] h-[12rem] bg-secondary rounded-md shadow-md border-slate-200 dark:border-slate-700"></Skeleton>
-          <Skeleton className="w-[15rem] h-[12rem] bg-secondary rounded-md shadow-md border-slate-200 dark:border-slate-700"></Skeleton>
-          <Skeleton className="w-[15rem] h-[12rem] bg-secondary rounded-md shadow-md border-slate-200 dark:border-slate-700"></Skeleton>
+          <Skeleton className="w-[15rem] h-[12rem] bg-secondary rounded-md shadow-md border-slate-200 dark:border-secondary"></Skeleton>
+          <Skeleton className="w-[15rem] h-[12rem] bg-secondary rounded-md shadow-md border-slate-200 dark:border-secondary"></Skeleton>
+          <Skeleton className="w-[15rem] h-[12rem] bg-secondary rounded-md shadow-md border-slate-200 dark:border-secondary"></Skeleton>
+          <Skeleton className="w-[15rem] h-[12rem] bg-secondary rounded-md shadow-md border-slate-200 dark:border-secondary"></Skeleton>
         </div>
       )}
 

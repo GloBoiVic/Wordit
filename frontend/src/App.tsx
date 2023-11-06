@@ -7,6 +7,7 @@ import { ThemeProvider } from './utils/theme-provider';
 import LoginPage from './features/user/LoginPage';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import LandingPage from './ui/LandingPage';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -26,7 +27,7 @@ const router = createBrowserRouter([
       {
         path: '/',
         index: true,
-        element: <h1>Landing Page</h1>,
+        element: <LandingPage />,
       },
       {
         path: '/vocab',
@@ -55,7 +56,7 @@ const router = createBrowserRouter([
 
 function App() {
   return (
-    <ThemeProvider defaultTheme="light" storageKey="vite-ui-theme">
+    <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
       <QueryClientProvider client={queryClient}>
         <ReactQueryDevtools initialIsOpen={false} />
         <RouterProvider router={router}></RouterProvider>

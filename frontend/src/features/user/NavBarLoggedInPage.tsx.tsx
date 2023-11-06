@@ -13,11 +13,11 @@ function NavBarLoggedInPage() {
   return (
     <>
       {/* TODO: Add link to user profile page */}
-      <Avatar src={user?.profilePicture} />
-      <Link as={NavLink} to="/vocab" underline="hover">
+      <Avatar src={user?.profilePicture} color="secondary" isBordered className="hidden sm:block" />
+      <Link as={NavLink} to="/vocab" underline="hover" className="text-accent">
         My Words
       </Link>
-      <Link as={NavLink} underline="hover" to="/" onClick={logout}>
+      <Link as={NavLink} underline="hover" to="/" onClick={logout} className="text-accent">
         Log Out
       </Link>
     </>

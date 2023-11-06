@@ -8,14 +8,13 @@ function Header() {
   const { user } = useGetUsers();
 
   return (
-    <header className="flex items-center justify-between w-full h-12 px-4 py-2 mx-auto border">
+    <header className="flex items-center justify-between w-full px-4 py-2 mx-auto shadow-md h-14 shadow-secondary">
       <Link as={NavLink} to="/">
-        <h1 className="text-4xl font-bold leading-relaxed uppercase">Wordit</h1>
+        <h1 className="text-4xl font-bold leading-relaxed uppercase text-accent">Wordit</h1>
       </Link>
 
       <ul className="flex gap-8 uppercase">
         {user ? <NavBarLoggedInPage /> : <NavBarLoggedOutPage />}
-        {/* {!loggedInUser && <NavBarLoggedOutPage />} */}
       </ul>
     </header>
   );

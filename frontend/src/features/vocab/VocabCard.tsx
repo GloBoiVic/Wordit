@@ -25,8 +25,12 @@ function VocabCard({ word, onWordClicked }: VocabCardProps) {
   }
 
   return (
-    <Card isPressable onClick={() => onWordClicked(word)} className="w-[15rem] cursor-pointer">
-      <CardHeader className="flex items-center border-b">
+    <Card
+      isPressable
+      onClick={() => onWordClicked(word)}
+      className="w-[15rem] cursor-pointer shadow-md shadow-secondary dark:border dark:border-secondary"
+    >
+      <CardHeader className="flex items-center border-b dark:border-secondary">
         <div className="mr-auto space-x-2">
           <span className="text-2xl font-bold capitalize ">{vocabWord}</span>
           <span className="text-sm text-slate-400">{partOfSpeech}</span>

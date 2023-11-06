@@ -14,11 +14,11 @@ function Sidebar({ onDismiss, children }: SidebarProps) {
 
   return (
     <>
-      <aside className="px-2 py-4 sm:w-[250px] sm:border-r">
-        <div className="flex flex-col gap-3 mx-3">
+      <aside className="px-2 py-4 sm:w-[250px] sm:border-r border-primary">
+        <div className="flex flex-col gap-3 mx-3 text-foreground">
           <Button
             onPress={onDismiss}
-            className="w-full hover:bg-primary/60 text-stone-100"
+            className="w-full hover:bg-accent"
             color="primary"
             startContent={<PlusCircleIcon className="w-5 h-5" />}
           >
