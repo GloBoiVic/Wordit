@@ -11,16 +11,16 @@ function useGetWords() {
     setSearchQuery(e.target.value);
   };
 
-  const filteredWords = useCallback(
-    (words: VocabModel[]) => {
-      if (!searchQuery) return words;
+  // const filteredWords = useCallback(
+  //   (words: VocabModel[]) => {
+  //     if (!searchQuery) return words;
 
-      return words.filter((word: VocabModel) =>
-        word.word.toLowerCase().includes(searchQuery.toLowerCase()),
-      );
-    },
-    [searchQuery],
-  );
+  //     return words.filter((word: VocabModel) =>
+  //       word.word.toLowerCase().includes(searchQuery.toLowerCase()),
+  //     );
+  //   },
+  //   [searchQuery],
+  // );
 
   const {
     isLoading,
@@ -35,12 +35,22 @@ function useGetWords() {
     //     word.word.toLowerCase().includes(searchQuery.toLowerCase()),
     //   );
     // },
-    select: filteredWords,
+    // select: filteredWords,
     refetchOnWindowFocus: false,
     retry: 2,
   });
 
-  return { isLoading, words, error, searchQuery, handleSearchQuery };
+  return {
+    isLoading,
+    words: !searchQuery
+      ? words
+      : words.filter((word: VocabModel) =>
+          word.word.toLowerCase().includes(searchQuery.toLowerCase()),
+        ),
+    error,
+    searchQuery,
+    handleSearchQuery,
+  };
 }
 
 export default useGetWords;
