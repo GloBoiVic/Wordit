@@ -1,6 +1,6 @@
 import { MagnifyingGlassIcon, PlusCircleIcon } from '@heroicons/react/24/outline';
 import { Button, Input } from '@nextui-org/react';
-import { ChangeEvent, ReactNode, useState } from 'react';
+import { ReactNode } from 'react';
 import useGetWords from '../features/vocab/useGetWords';
 
 type SidebarProps = {
@@ -8,15 +8,10 @@ type SidebarProps = {
   children: ReactNode;
 };
 
-function Sidebar({ onDismiss, children, searchQuery, onHandleChange }: SidebarProps) {
-  // const [searchQuery, setSearchQuery] = useState('');
+function Sidebar({ onDismiss, children }: SidebarProps) {
+  const { searchQuery, handleSearchQuery } = useGetWords();
+  console.log(searchQuery);
 
-  // const handleSearchQuery = (e: ChangeEvent<HTMLInputElement>) => {
-  //   e.preventDefault();
-  //   setSearchQuery(e.target.value);
-  // };
-
-  // const { searchQuery, handleSearchQuery } = useGetWords();
   return (
     <>
       <aside className="px-2 py-4 sm:w-[250px] sm:border-r">
@@ -34,7 +29,7 @@ function Sidebar({ onDismiss, children, searchQuery, onHandleChange }: SidebarPr
             type="text"
             radius="md"
             startContent={<MagnifyingGlassIcon className="w-5 h-5" />}
-            onChange={onHandleChange}
+            onChange={handleSearchQuery}
           />
         </div>
         <p>{searchQuery}</p>

@@ -57,7 +57,6 @@ function CreateEditWordModal({ onDismiss, wordToEdit, onWordEdit }: CreateEditWo
     } else {
       createWord(values, {
         onError: (error) => {
-          // server is throwing error code 500. Why??
           setErrorText(error.message);
         },
         onSuccess: () => onDismiss(),

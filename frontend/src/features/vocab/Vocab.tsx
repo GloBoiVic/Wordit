@@ -1,5 +1,5 @@
 import { Skeleton } from '@nextui-org/react';
-import { ChangeEvent, useEffect, useState } from 'react';
+import { useState } from 'react';
 import { VocabModel } from '../../models/vocabModel';
 import ErrorVocabPage from '../../ui/ErrorVocabPage';
 import Sidebar from '../../ui/Sidebar';
@@ -11,13 +11,9 @@ function Vocab() {
   const [showAddWordModal, setShowAddWordModal] = useState(false);
   const [wordToEdit, setWordToEdit] = useState<VocabModel | null>(null);
   const { words, isLoading, error } = useGetWords();
-  const [searchQuery, setSearchQuery] = useState('');
-
-  const handleSearchQuery = (e: ChangeEvent<HTMLInputElement>) => {
-    e.preventDefault();
-    setSearchQuery(e.target.value);
-  };
-  console.log(words);
+  console.log(
+    words.filter((word: VocabModel) => word.word.toLowerCase().includes('DEMO'.toLowerCase())),
+  );
 
   if (error) return <ErrorVocabPage />;
 
@@ -32,13 +28,7 @@ function Vocab() {
   return (
     <div className="flex flex-col h-[90vh] gap-3 px-4 sm:flex-row">
       <Sidebar onDismiss={() => setShowAddWordModal(true)}>
-        {showAddWordModal && (
-          <CreateEditWordModal
-            onDismiss={() => setShowAddWordModal(false)}
-            searchQuery={searchQuery}
-            onHandleChange={handleSearchQuery}
-          />
-        )}
+        {showAddWordModal && <CreateEditWordModal onDismiss={() => setShowAddWordModal(false)} />}
         {wordToEdit && (
           <CreateEditWordModal
             wordToEdit={wordToEdit}
