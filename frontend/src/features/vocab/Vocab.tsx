@@ -11,6 +11,7 @@ function Vocab() {
   const [showAddWordModal, setShowAddWordModal] = useState(false);
   const [wordToEdit, setWordToEdit] = useState<VocabModel | null>(null);
   const { words, isLoading, error } = useGetWords();
+  console.log(words);
   console.log(
     words?.filter((word: VocabModel) => word.word.toLowerCase().includes('DEMO'.toLowerCase())),
   );
