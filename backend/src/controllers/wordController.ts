@@ -135,6 +135,8 @@ export const updateWord: RequestHandler<UpdateWordParams, unknown, UpdateWordBod
 
     const data = await apiResponse.json();
 
+    if (!apiResponse.ok) throw createHttpError(500, 'Something went wrong');
+
     const definition = data[0].meanings[0].definitions[0].definition;
 
     word.word = newWord;
