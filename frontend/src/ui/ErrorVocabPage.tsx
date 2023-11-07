@@ -5,10 +5,8 @@ function ErrorVocabPage() {
   return (
     <main className="h-[30vh] flex justify-center items-center">
       <div className="max-w-lg mx-auto space-y-3 text-center">
-        <h3 className="text-4xl font-semibold text-gray-800 sm:text-5xl">Oops</h3>
-        <p className="text-gray-600">
-          Sorry, something went wrong while getting your words. Please try again later
-        </p>
+        <h3 className="text-4xl font-semibold sm:text-5xl">Oops</h3>
+        <p>Sorry, something went wrong while getting your words. Please try again later</p>
         <Link
           as={NavLink}
           to="/"
