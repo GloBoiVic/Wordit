@@ -39,11 +39,7 @@ function Vocab() {
 
   return (
     <div className="flex flex-col gap-3 px-4 sm:flex-row">
-      <Sidebar
-        onDismiss={() => setShowAddWordModal(true)}
-        searchQuery={searchQuery}
-        onChangeSearchQuery={handleSearchQuery}
-      >
+      <Sidebar onDismiss={() => setShowAddWordModal(true)} onChangeSearchQuery={handleSearchQuery}>
         {showAddWordModal && <CreateEditWordModal onDismiss={() => setShowAddWordModal(false)} />}
         {wordToEdit && (
           <CreateEditWordModal
@@ -67,7 +63,7 @@ function Vocab() {
         <>
           {filteredWords && filteredWords.length ? (
             wordsGrid
-          ) : searchQuery.length > 1 && !filteredWords?.length ? (
+          ) : searchQuery.length > 1 && filteredWords && !filteredWords?.length ? (
             <p className="mx-3 text-xl font-semibold">You dont this word saved</p>
           ) : (
             <p className="mx-3 text-xl font-semibold">
@@ -76,12 +72,6 @@ function Vocab() {
           )}
         </>
       )}
-      {/* TODO: Will need a nested ternary to check tell the user that the word they searched does not exist */}
-      {/* {!isLoading && !error && filteredWords.length === 0 && (
-        <p className="mx-3 text-xl font-semibold">
-          You dont have any words saved. Add your first word
-        </p>
-      )} */}
     </div>
   );
 }

@@ -5,11 +5,10 @@ import { ChangeEvent, ReactNode } from 'react';
 type SidebarProps = {
   onDismiss: () => void;
   children: ReactNode;
-  searchQuery: string;
   onChangeSearchQuery: (e: ChangeEvent<HTMLInputElement>) => void;
 };
 
-function Sidebar({ onDismiss, children, searchQuery, onChangeSearchQuery }: SidebarProps) {
+function Sidebar({ onDismiss, children, onChangeSearchQuery }: SidebarProps) {
   return (
     <>
       <aside className="px-2 py-4 sm:w-[250px] sm:border-r border-primary">
@@ -30,7 +29,6 @@ function Sidebar({ onDismiss, children, searchQuery, onChangeSearchQuery }: Side
             onChange={onChangeSearchQuery}
           />
         </div>
-        <p>{searchQuery}</p>
       </aside>
 
       {children}
