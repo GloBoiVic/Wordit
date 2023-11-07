@@ -67,6 +67,8 @@ export const createWord: RequestHandler<unknown, unknown, CreateWordBody, unknow
       method: 'GET',
     });
 
+    if (!apiResponse.ok) throw createHttpError(500, 'Something went wrong');
+
     const data = await apiResponse.json();
 
     const definition: string = data[0]?.meanings[0]?.definitions[0]?.definition;
