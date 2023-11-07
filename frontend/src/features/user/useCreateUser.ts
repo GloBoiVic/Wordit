@@ -7,7 +7,7 @@ function useCreateUser() {
   const { mutate: createUser, isPending: isCreating } = useMutation({
     mutationFn: signUp,
     onSuccess: () => {
-      navigate('/vocab');
+      // navigate('/vocab');
     },
     onError: (err) => console.error(err.message),
   });

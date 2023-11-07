@@ -7,7 +7,7 @@ function useLoginUser() {
   const { mutate: loginUser, isPending: isLogginIn } = useMutation({
     mutationFn: login,
     onSuccess: () => {
-      navigate('/vocab');
+      // navigate('/vocab');
     },
     onError: (err) => console.error(err.message),
   });
