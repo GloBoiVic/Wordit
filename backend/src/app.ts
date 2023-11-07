@@ -35,6 +35,11 @@ app.use(
   }),
 ); // Register session
 
+// Redirect home routes
+app.use('/', (req, res) => {
+  res.redirect('/api/v1/users/login');
+});
+
 app.use('/api/v1/users', userRouter);
 
 app.use('/api/v1/words', requiresAuth, wordRouter);
