@@ -1,17 +1,15 @@
 import { MagnifyingGlassIcon, PlusCircleIcon } from '@heroicons/react/24/outline';
 import { Button, Input } from '@nextui-org/react';
-import { ReactNode } from 'react';
-import useGetWords from '../features/vocab/useGetWords';
+import { ChangeEvent, ReactNode } from 'react';
 
 type SidebarProps = {
   onDismiss: () => void;
   children: ReactNode;
+  searchQuery: string;
+  onChangeSearchQuery: (e: ChangeEvent<HTMLInputElement>) => void;
 };
 
-function Sidebar({ onDismiss, children }: SidebarProps) {
-  const { searchQuery, handleSearchQuery } = useGetWords();
-  console.log(searchQuery);
-
+function Sidebar({ onDismiss, children, searchQuery, onChangeSearchQuery }: SidebarProps) {
   return (
     <>
       <aside className="px-2 py-4 sm:w-[250px] sm:border-r border-primary">
@@ -29,7 +27,7 @@ function Sidebar({ onDismiss, children }: SidebarProps) {
             type="text"
             radius="md"
             startContent={<MagnifyingGlassIcon className="w-5 h-5" />}
-            onChange={handleSearchQuery}
+            onChange={onChangeSearchQuery}
           />
         </div>
         <p>{searchQuery}</p>
