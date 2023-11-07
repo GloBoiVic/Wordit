@@ -9,8 +9,6 @@ function useGetWords() {
   } = useQuery({
     queryKey: ['words'],
     queryFn: fetchWords,
-    refetchOnWindowFocus: false,
-    retry: 2,
   });
 
   return { isLoading, words, error };
