@@ -4,7 +4,7 @@ import { fetchWords } from '../../services/api';
 function useGetWords() {
   const {
     isLoading,
-    data: words = [],
+    data: words,
     error,
   } = useQuery({
     queryKey: ['words'],
