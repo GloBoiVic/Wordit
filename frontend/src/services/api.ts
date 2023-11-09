@@ -7,7 +7,7 @@ import {
 import { UserModel } from '../models/userModel';
 import { VocabModel } from '../models/vocabModel';
 
-// const HOSTED_BACKEND_URI = 'https://wordit.onrender.com';
+const HOSTED_BACKEND_URI = 'https://wordit.onrender.com';
 // console.log(import.meta.env.VITE_BACKEND_URI);
 
 async function fetchData(input: RequestInfo, init?: RequestInit) {
@@ -34,7 +34,7 @@ async function fetchData(input: RequestInfo, init?: RequestInit) {
 }
 
 export async function getLoggedInUser(): Promise<UserModel> {
-  const response = await fetchData('/api/v1/users', {
+  const response = await fetchData(`${HOSTED_BACKEND_URI}/api/v1/users`, {
     method: 'GET',
   });
   return response.json();
@@ -47,7 +47,7 @@ interface SignUpCredentials {
 }
 
 export async function signUp(credentials: SignUpCredentials): Promise<UserModel> {
-  const response = await fetchData('/api/v1/users/signup', {
+  const response = await fetchData(`${HOSTED_BACKEND_URI}/api/v1/users/signup`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -64,7 +64,7 @@ interface LoginCredentials {
 }
 
 export async function login(credentials: LoginCredentials): Promise<UserModel> {
-  const response = await fetchData('/api/v1/users/login', {
+  const response = await fetchData(`${HOSTED_BACKEND_URI}/api/v1/users/login`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -76,15 +76,17 @@ export async function login(credentials: LoginCredentials): Promise<UserModel> {
 }
 
 export async function logout() {
-  const response = await fetchData('/api/v1/users/logout', {
+  const response = await fetchData(`${HOSTED_BACKEND_URI}/api/v1/users/logout`, {
     method: 'POST',
+    credentials: 'include',
   });
   return response;
 }
 
 export async function fetchWords(): Promise<VocabModel[]> {
-  const response = await fetchData('/api/v1/words', {
+  const response = await fetchData(`${HOSTED_BACKEND_URI}/api/v1/words`, {
     method: 'GET',
+    credentials: 'include',
   });
   return response.json();
 }
@@ -94,7 +96,7 @@ interface wordInput {
   contextExample?: string;
 }
 export async function createWord(word: wordInput): Promise<VocabModel> {
-  const response = await fetchData('/api/v1/words', {
+  const response = await fetchData(`${HOSTED_BACKEND_URI}/api/v1/words`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -107,7 +109,7 @@ export async function createWord(word: wordInput): Promise<VocabModel> {
 }
 
 export async function updateWord(wordId: string, word: wordInput): Promise<VocabModel> {
-  const response = await fetchData(`/api/v1/words/${wordId}`, {
+  const response = await fetchData(`${HOSTED_BACKEND_URI}/api/v1/words/${wordId}`, {
     method: 'PATCH',
     headers: {
       'Content-Type': 'application/json',
@@ -119,7 +121,8 @@ export async function updateWord(wordId: string, word: wordInput): Promise<Vocab
 }
 
 export async function deleteWord(wordId: string) {
-  await fetchData(`/api/v1/words/${wordId}`, {
+  await fetchData(`${HOSTED_BACKEND_URI}/api/v1/words/${wordId}`, {
     method: 'DELETE',
+    credentials: 'include',
   });
 }
