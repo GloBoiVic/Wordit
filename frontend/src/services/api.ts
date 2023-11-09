@@ -52,7 +52,7 @@ export async function signUp(credentials: SignUpCredentials): Promise<UserModel>
     headers: {
       'Content-Type': 'application/json',
     },
-    credentials: 'include',
+    credentials: 'same-origin',
     body: JSON.stringify(credentials),
   });
   return response.json();
@@ -69,7 +69,7 @@ export async function login(credentials: LoginCredentials): Promise<UserModel> {
     headers: {
       'Content-Type': 'application/json',
     },
-    credentials: 'include',
+    credentials: 'same-origin',
     body: JSON.stringify(credentials),
   });
   return response.json();
@@ -78,7 +78,7 @@ export async function login(credentials: LoginCredentials): Promise<UserModel> {
 export async function logout() {
   const response = await fetchData(`${HOSTED_BACKEND_URI}/api/v1/users/logout`, {
     method: 'POST',
-    credentials: 'include',
+    credentials: 'same-origin',
   });
   return response;
 }
@@ -86,7 +86,7 @@ export async function logout() {
 export async function fetchWords(): Promise<VocabModel[]> {
   const response = await fetchData(`${HOSTED_BACKEND_URI}/api/v1/words`, {
     method: 'GET',
-    credentials: 'include',
+    credentials: 'same-origin',
   });
   return response.json();
 }
@@ -101,7 +101,7 @@ export async function createWord(word: wordInput): Promise<VocabModel> {
     headers: {
       'Content-Type': 'application/json',
     },
-    credentials: 'include',
+    credentials: 'same-origin',
     body: JSON.stringify(word),
   });
 
@@ -114,7 +114,7 @@ export async function updateWord(wordId: string, word: wordInput): Promise<Vocab
     headers: {
       'Content-Type': 'application/json',
     },
-    credentials: 'include',
+    credentials: 'same-origin',
     body: JSON.stringify(word),
   });
   return response.json();
@@ -123,6 +123,6 @@ export async function updateWord(wordId: string, word: wordInput): Promise<Vocab
 export async function deleteWord(wordId: string) {
   await fetchData(`${HOSTED_BACKEND_URI}/api/v1/words/${wordId}`, {
     method: 'DELETE',
-    credentials: 'include',
+    credentials: 'same-origin',
   });
 }
