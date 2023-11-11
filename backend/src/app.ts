@@ -9,12 +9,19 @@ import MongoStore from 'connect-mongo';
 import createHttpError, { isHttpError } from 'http-errors';
 import cookieParser from 'cookie-parser';
 import { requiresAuth } from './middlewares/auth';
+import helmet from 'helmet';
 
 const app = express();
 
+app.set('trust proxy', 1);
+
 app.use(cors());
 
-app.use(morgan('dev'));
+app.use(helmet());
+
+if (process.env.NODE_ENV === 'development') {
+  app.use(morgan('dev'));
+}
 
 app.use(express.json());
 
@@ -26,7 +33,9 @@ app.use(
     resave: false,
     saveUninitialized: false,
     cookie: {
+      httpOnly: true,
       maxAge: 60 * 60 * 1000, // 60 minutes
+      secure: process.env.NODE_ENV === 'production',
     },
     rolling: true,
     store: MongoStore.create({
