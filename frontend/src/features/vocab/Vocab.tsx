@@ -6,6 +6,7 @@ import Sidebar from '../../ui/Sidebar';
 import CreateEditWordModal from './CreateEditWordModal';
 import VocabCard from './VocabCard';
 import useGetWords from './useGetWords';
+import SkeletonLoader from '../../ui/SkeletonLoader';
 
 function Vocab() {
   const [showAddWordModal, setShowAddWordModal] = useState(false);
@@ -29,6 +30,8 @@ function Vocab() {
 
   if (error) return <ErrorVocabPage />;
 
+  if (isLoading) return <SkeletonLoader />;
+
   const wordsGrid = (
     <main className="grid flex-1 gap-2 px-2 py-4 mx-3 lg:grid-cols-3 xl:grid-cols-4 auto-rows-min lg:mx-0 sm:grid-cols-2 min-w-fit sm:max-w-fit">
       {filteredWords?.map((word: VocabModel) => (
@@ -49,15 +52,6 @@ function Vocab() {
           />
         )}
       </Sidebar>
-
-      {isLoading && (
-        <div className="grid flex-1 gap-2 px-2 py-4 mx-3 overflow-auto lg:grid-cols-3 xl:grid-cols-4 auto-rows-min lg:mx-0 sm:grid-cols-2 min-w-fit sm:max-w-fit">
-          <Skeleton className="w-[15rem] h-[12rem] bg-secondary rounded-md shadow-md border-slate-200 dark:border-secondary"></Skeleton>
-          <Skeleton className="w-[15rem] h-[12rem] bg-secondary rounded-md shadow-md border-slate-200 dark:border-secondary"></Skeleton>
-          <Skeleton className="w-[15rem] h-[12rem] bg-secondary rounded-md shadow-md border-slate-200 dark:border-secondary"></Skeleton>
-          <Skeleton className="w-[15rem] h-[12rem] bg-secondary rounded-md shadow-md border-slate-200 dark:border-secondary"></Skeleton>
-        </div>
-      )}
 
       {!isLoading && !error && (
         <>
