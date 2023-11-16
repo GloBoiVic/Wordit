@@ -9,6 +9,7 @@ function useGetUsers() {
   } = useQuery({
     queryKey: ['users'],
     queryFn: getLoggedInUser,
+    retry: false,
   });
   return { isLoading, user, error };
 }
