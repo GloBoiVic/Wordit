@@ -1,6 +1,6 @@
 import { RequestHandler } from 'express';
 import createHttpError from 'http-errors';
-import bcrypt from 'bcrypt';
+import bcrypt from 'bcryptjs';
 import userModel from '../models/userModel';
 
 // Checks for session data stored in the cookie in the browser
